@@ -1,0 +1,161 @@
+Correzione esercizio
+
+Si consideri il linguaggio su alfabeto {(,),[,]} delle stringhe w f(w^r) dove w è una stringa sui caratteri "(" ed "[". f è la funzione che trasforma "(" in ")" e "[" in "]" che si assume estesa a stringhe considerando 
+f(a_1...a_n)=f(a_1)...f(a_n). Per esempio "[([])]" ed "(([()]))" sono stringhe del linguaggio. Assumendo che il linguaggio non contenga la stringa vuota (cioè |w|>0):
+- è possibile riconoscerlo **per stato finale** con un DPDA? 
+- esiste una CFG non ambigua che genera il linguaggio? (in caso affermativo mostrare una tale CFG)
+
+---
+
+Facciamo un parser con ANTLR per la grammatica delle espressioni
+(con priorità di * su + e associatività a DESTRA per + e *):
+S -> E
+E -> T E'
+E' -> + E | \epsilon
+T -> V T'
+T' -> * T | \epsilon
+V -> n | ( E )
+dove n è un numero naturale (0 incluso).
+
+Si noti che è equivalente alla grammatica:
+E -> T + E | T
+T -> V * T | V
+V -> n | ( E )
+
+---
+
+1. Dimostrare con il pumping lemma dei linguaggi liberi che a^mb^mc^m non è libero dal contesto.
+
+se fosse libero:
+per il pumping lemma esiste una costante n>=1 tale che ogni stringa z di L con |z|>=n è scomponibile in z=uvwxy
+tale che
+- |vwx|<=n
+- |vx|>0
+- u v^k w x^k y appartiene ad L per ogni k>=0
+
+---
+dato n del pumping lemma dei liberi, considero
+z=a^nb^nc^n
+
+stringa vx ha caratteri di soli due tipi (o è stinga su {a,b} o è stinga su {b,c})
+se taglio (cioè k=0) c'è sicuramente un gruppo che diventa di lunghezza <n e un gruppo
+(quello non coinvolto) che rimane di lunghezza n
+
+2. Dimostrare con il pumping lemma dei linguaggi liberi che il linguaggio delle stringhe su alfabeto {a,b,c} che hanno stesso numero di "a", "b" e "c" non è libero dal contesto.
+
+SI
+
+\epsilon
+bca
+bcaabc
+abaccabcb
+
+NO
+
+a
+bbc
+
+------
+
+dato n del pumping lemma dei liberi, considero
+z=a^nb^nc^n
+
+PROCEDO CON LA STESSA DIMOSTRAZIONE DI PRIMA
+
+3. Dimostrare con il pumping lemma dei linguaggi liberi che il linguaggio delle stringhe su alfabeto {a,b,c} tali che il numero di "a" e' minore al numero di "b" ed il numero di "b" e' uguale al numero di "c" non è libero dal contesto.
+
+SI
+abbcc
+bbbccc
+bcabc
+
+NO
+aabbcc
+aaabc
+aabbbcccc
+
+---------
+
+dato n del pumping lemma dei liberi, considero
+z = a^nb^(n+1)c^(n+1)
+
+u vwx y
+
+vwx coinvolge al più due gruppi quindi ho
+casi su vx:
+
+- almeno una lettera "a" (sicuramente non contiene "c"): pompo 2 volte (k=2), esco dal linguaggio ("a" non è più   minore di "c")
+- nessuna lettera "a": taglio, esco dal linguaggio (le  "a" non sono più minori delle "b" o delle "c")
+
+4. Dimostrare con il pumping lemma dei linguaggi liberi che il linguaggio delle stringhe su alfabeto {a,b,c} tali che il numero di "a" e' minore al numero di "b" ed il numero di "b" e' minore al numero di "c" non è libero dal contesto.
+
+SI
+abbccc
+cbabbcccc
+
+NO
+
+abc
+abbcc
+
+dato n del pumping lemma dei liberi, considero
+z = a^nb^(n+1)c^(n+2)
+
+u vwx y
+
+vwx coinvolge al più due gruppi quindi ho
+casi su vx:
+
+- stringa su {a,b}: pompo due volte (k=2), esco dal linguaggio perche': o le "a" divetano >= alle "b" (se vx è fatto di sole "a") oppure le "b" diventano >= alle "c" (altrimenti)
+- stringa su {b,c}: taglio (k=0), esco dal linguaggio perche': o le "c" diventano <= alle "b" (se vx è fatto di sole "c") oppure le "b" diventano <= alle "a" (altrimenti)
+
+5. Dire se il linguaggio ww, con w stringa su alfabeto {0,1} è, o meno, libero dal contesto e dimostrare la propria affermazione.
+
+SI
+\epsilon
+10111011
+100100
+
+NO
+101
+1001
+
+dato n del pumping lemma dei liberi, considero
+z = 0^n1^n0^n1^n
+
+u vwx y
+
+|vwx| <=n si ha che vx ha simboli che coinvolgono, al più, due gruppi adiacenti dei 4 (di cui un gruppo è di 0 ed un gruppo è di 1).
+Quindi se vx include degli "0", essi appartengono tutti ad uno stesso gruppo di 0 ed, analogaente, se
+include degli "1",  essi appartengono tutti ad uno stesso gruppo di "1".
+Siccome |vx|>0, tagliando v e x, c'è almeno un gruppo di 0 o un gruppo di 1 che assume lunghezza < n, mentre l'altro gruppo dei 4 dello stesso tipo (0 o 1) rimane invariato (di lunghezza n). 
+Quindi uwy non appartiene al linguaggio
+
+ESERCIZO PER CASA
+
+6. Considerare il linguaggio L delle stringhe su alfabeto {a,b} per cui il numero delle "a", è diverso dal numero delle "b". L è un linguaggio libero? In caso affermativo mostrare un automa a pila che lo riconosca per stato finale.
+
+
+
+SI
+aab
+abbaa
+
+NO
+
+ab
+abab
+abba
+
+7. Considerare il linguaggio L delle stringhe su alfabeto {a,b,c} per cui non vale che il numero delle "a", delle "b" e delle "c" è lo stesso (vi sono almeno due tra "a", "b" e "c" per cui la quantità delle une è diversa dalla quantità delle altre). L è un linguaggio libero? Qual'è il suo complementare?
+
+SI
+aabbccc
+ababc
+abbccc
+
+NO
+\epsilon
+abc
+cbbcaa
+ccabaabbc
