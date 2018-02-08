@@ -9,5 +9,8 @@ public class BoolTypeNode implements Node {
         return s+"BoolType\n";  
     }
 
-    //public Node typeCheck() {return null;}
+    // non utilizzato
+    public Node typeCheck() {
+        return null;
+    }
 }  

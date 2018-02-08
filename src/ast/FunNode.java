@@ -1,5 +1,6 @@
 package ast;
 import java.util.ArrayList;
+import lib.FOOLlib;
 
 public class FunNode implements Node {
     private String id;
@@ -12,21 +13,21 @@ public class FunNode implements Node {
         id=i;
         type=t;
     }
-
+  
     public void addDec (ArrayList<Node> d) {
         declist=d;
     }
 
     public void addBody (Node b) {
         exp=b;
-    }  
+    }
 
     public void addPar (Node p) { //metodo "addPar" che aggiunge un nodo a campo "parlist"
         parlist.add(p);  
-    }
+    }  
 
     public String toPrint(String s) {
-		String parlstr="";
+        String parlstr="";
 		for (Node par:parlist){
             parlstr+=par.toPrint(s+"  ");
         }
@@ -40,6 +41,13 @@ public class FunNode implements Node {
 			   +declstr
                +exp.toPrint(s+"  ") ; 
     }
-
-    //public Node typeCheck() {return null;}
+  
+    public Node typeCheck() {
+        for (Node dec:declist){dec.typeCheck();};
+        if (! FOOLlib.isSubtype(exp.typeCheck(),type)) {
+            System.out.println("Incompatible value for variable");
+			System.exit(0);
+        }
+        return null;
+    }     
 }  

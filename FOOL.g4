@@ -39,7 +39,7 @@ declist	returns [ArrayList<Node> astlist]
             {VarNode v = new VarNode($i.text,$t.ast,$e.ast);  
              $astlist.add(v);                                 
              HashMap<String,STentry> hm = symTable.get(nestingLevel);
-             if ( hm.put($i.text,new STentry(nestingLevel)) != null  )
+             if ( hm.put($i.text,new STentry(nestingLevel,$t.ast)) != null  )
              {System.out.println("Var id "+$i.text+" at line "+$i.line+" already declared");
               System.exit(0);}  
             }  
@@ -49,7 +49,8 @@ declist	returns [ArrayList<Node> astlist]
                FunNode f = new FunNode($i.text,$t.ast);      
                $astlist.add(f);                              
                HashMap<String,STentry> hm = symTable.get(nestingLevel);
-               if ( hm.put($i.text,new STentry(nestingLevel)) != null  )
+               STentry entry=new STentry(nestingLevel);
+               if ( hm.put($i.text,entry) != null  )
                {System.out.println("Fun id "+$i.text+" at line "+$i.line+" already declared");
                 System.exit(0);}
                 //creare una nuova hashmap per la symTable
@@ -57,30 +58,30 @@ declist	returns [ArrayList<Node> astlist]
                 HashMap<String,STentry> hmn = new HashMap<String,STentry> ();
                 symTable.add(hmn);
                 }
-              LPAR
-                 
+              LPAR {ArrayList<Node> parTypes = new ArrayList<Node>();}
                 //DA QUI ESERCITAZIONE
                 (fid=ID COLON fty=type
                   { 
+                  parTypes.add($fty.ast);
                   ParNode fpar = new ParNode($fid.text,$fty.ast); //creo nodo ParNode
                   f.addPar(fpar);                                 //lo attacco al FunNode con addPar
-                  if ( hmn.put($fid.text,new STentry(nestingLevel)) != null  ) //aggiungo dich a hmn
+                  if ( hmn.put($fid.text,new STentry(nestingLevel,$fty.ast)) != null  ) //aggiungo dich a hmn
                   {System.out.println("Parameter id "+$fid.text+" at line "+$fid.line+" already declared");
                    System.exit(0);}
                   }
                   (COMMA id=ID COLON ty=type
                     {
+                    parTypes.add($ty.ast);
                     ParNode par = new ParNode($id.text,$ty.ast);
                     f.addPar(par);
-                    if ( hmn.put($id.text,new STentry(nestingLevel)) != null  )
+                    if ( hmn.put($id.text,new STentry(nestingLevel,$ty.ast)) != null  )
                     {System.out.println("Parameter id "+$id.text+" at line "+$id.line+" already declared");
                      System.exit(0);}
                     }
                   )*
                 )? 
                 //FINO A QUI ESERCITAZIONE
- 
-              RPAR
+              RPAR {entry.addType(new ArrowTypeNode(parTypes,$t.ast));}
               (LET d=declist IN {f.addDec($d.astlist);})? e=exp
               {f.addBody($e.ast);
                //rimuovere la hashmap corrente poiché esco dallo scope               
@@ -142,6 +143,14 @@ value	returns [Node ast]
            {System.out.println("Id "+$i.text+" at line "+$i.line+" not declared");
             System.exit(0);}               
 	   $ast= new IdNode($i.text,entry);} 
+	   ( LPAR
+	   	 {ArrayList<Node> arglist = new ArrayList<Node>();} 
+	   	 ( a=exp {arglist.add($a.ast);} 
+	   	 	(COMMA a=exp {arglist.add($a.ast);} )*
+	   	 )? 
+	   	 RPAR
+	   	 {$ast= new CallNode($i.text,entry,arglist);} 
+	   )?
  	; 
 
   		

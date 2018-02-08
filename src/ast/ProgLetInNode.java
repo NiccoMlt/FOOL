@@ -18,5 +18,10 @@ public class ProgLetInNode implements Node {
         return s+"ProgLetIn\n" + declstr + exp.toPrint(s+"  ") ; 
     }
 
-    //public Node typeCheck() {return null;}
+    public Node typeCheck() {
+        for (Node dec:declist){
+            dec.typeCheck();
+        }
+        return exp.typeCheck();
+    }
 }  

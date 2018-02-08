@@ -24,7 +24,7 @@ public class Test {
 	 */
     public static void main(String[] args) throws Exception {
       
-        String fileName = "prova.fool";
+        String fileName = "provaold.fool";
       
         CharStream chars = CharStreams.fromFileName(fileName);
         FOOLLexer lexer = new FOOLLexer(chars);
@@ -38,5 +38,7 @@ public class Test {
         System.out.println("Visualizing AST...");
         System.out.print(ast.toPrint(""));
         
+        Node type=ast.typeCheck(); //type-checking bottom-up
+        System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
     }
 }

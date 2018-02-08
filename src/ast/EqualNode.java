@@ -1,4 +1,5 @@
 package ast;
+import lib.FOOLlib;
 
 public class EqualNode implements Node {
     private Node left;
@@ -14,5 +15,13 @@ public class EqualNode implements Node {
                       + right.toPrint(s+"  ") ; 
     }
 
-    //public Node typeCheck() {return null;}
+    public Node typeCheck() {
+        Node l= left.typeCheck();  
+        Node r= right.typeCheck();  
+        if ( !(FOOLlib.isSubtype(l, r) || FOOLlib.isSubtype(r, l)) ) {
+            System.out.println("Incompatible types in equal");
+            System.exit(0);	
+        }
+        return new BoolTypeNode();
+    }
 }  

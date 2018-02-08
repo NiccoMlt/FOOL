@@ -1,4 +1,5 @@
 package ast;
+import lib.FOOLlib;
 
 public class VarNode implements Node {
     private String id;
@@ -17,5 +18,11 @@ public class VarNode implements Node {
                +exp.toPrint(s+"  ") ; 
     }
 
-    //public Node typeCheck() {return null;}
+    public Node typeCheck() {
+        if (! FOOLlib.isSubtype(exp.typeCheck(),type)) {
+            System.out.println("Incompatible value for variable: "+id);
+            System.exit(0);
+        }
+        return null;
+    }
 }  

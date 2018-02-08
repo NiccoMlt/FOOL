@@ -2,7 +2,7 @@ package ast;
 
 public class IntNode implements Node {
     private Integer val;
-  
+
     public IntNode (Integer n) {
         val=n;
     }
@@ -11,5 +11,7 @@ public class IntNode implements Node {
         return s+"Int:" + Integer.toString(val) +"\n";  
     }
 
-    //public Node typeCheck() {return null;}
+    public Node typeCheck() {
+        return new IntTypeNode(); 
+    }
 }  

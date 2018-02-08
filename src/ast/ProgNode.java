@@ -12,5 +12,7 @@ public class ProgNode implements Node {
         return s+"Prog\n" + exp.toPrint(s+"  ") ;
     }
 
-    //public Node typeCheck() {return null;}
+    public Node typeCheck() {
+	    return exp.typeCheck();
+    }
 }  
