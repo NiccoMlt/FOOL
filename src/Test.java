@@ -24,7 +24,7 @@ public class Test {
 	 */
     public static void main(String[] args) throws Exception {
       
-        String fileName = "provaold.fool";
+        String fileName = "prova.fool";
       
         CharStream chars = CharStreams.fromFileName(fileName);
         FOOLLexer lexer = new FOOLLexer(chars);
@@ -39,6 +39,13 @@ public class Test {
         System.out.print(ast.toPrint(""));
         
         Node type=ast.typeCheck(); //type-checking bottom-up
-        System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
+        System.out.println(type.toPrint("Type checking ok! Type of the program is: "));  
+        
+        // CODE GENERATION  prova.fool.asm
+        //String code=ast.codeGeneration(); 
+        //BufferedWriter out = new BufferedWriter(new FileWriter(fileName+".asm")); 
+        //out.write(code);
+        //out.close(); 
+        //System.out.println("Code generated! Assembling and running generated code.");
     }
 }
