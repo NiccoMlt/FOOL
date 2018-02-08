@@ -28,6 +28,8 @@ public class VarNode implements Node {
   return null;
   }
     
-  //public String codeGeneration() {return "";}
+  public String codeGeneration() {
+	  return exp.codeGeneration();
+  }
 
 }  

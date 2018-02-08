@@ -36,6 +36,17 @@ public class IfNode implements Node {
     return null;
   }
   
-  //public String codeGeneration() {return "";}
+  public String codeGeneration() {
+	  String l1 = FOOLlib.freshLabel();
+	  String l2 = FOOLlib.freshLabel();
+	  return cond.codeGeneration()+
+			 "push 1\n"+
+		     "beq "+l1+"\n"+
+			 el.codeGeneration()+
+			 "b "+l2+"\n"+
+			 l1 + ": \n"+
+			 th.codeGeneration()+
+	         l2 + ": \n";		  
+  }
 
 }  

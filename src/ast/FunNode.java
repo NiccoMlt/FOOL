@@ -49,6 +49,34 @@ public class FunNode implements Node {
       return null;
   }
 	     
-  //public String codeGeneration() {return "";}
+  public String codeGeneration() {
+	String funl = FOOLlib.freshFunLabel();
+	
+	String declCode="";
+    for (Node dec:declist){declCode+=dec.codeGeneration();};
+
+	String popDecl="";
+    for (Node dec:declist){popDecl+="pop\n";};
+
+	String popParl="";
+    for (Node par:parlist){popParl+="pop\n";};
+    
+	FOOLlib.putCode(funl+":\n"+
+	  "cfp\n"+ //setta $fp allo $sp
+	  "lra\n"+ //inserimento Return Address
+	  declCode+
+      exp.codeGeneration()+
+      "srv\n"+ //pop del return value e memorizzazione in $rv
+      popDecl+ //una pop per ogni dichiarazione
+      "sra\n"+ //pop del Return Address e memorizzazione in $ra
+      "pop\n" + //pop di AL
+      popParl + 
+      "sfp\n" + // ripristino il $fp al valore del CL 
+      "lrv\n" + // risultato della funzione sullo stack
+      "lra\n" + "js\n" // salta a $ra
+	  );	  	  
+	
+	return "push "+funl+"\n";
+  }
 
 }  

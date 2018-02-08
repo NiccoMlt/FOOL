@@ -259,6 +259,8 @@ public class FOOLParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			((DeclistContext)_localctx).astlist =  new ArrayList<Node>() ;
+				   int offset=-2;
+				  
 			setState(78); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -285,7 +287,7 @@ public class FOOLParser extends Parser {
 					VarNode v = new VarNode((((DeclistContext)_localctx).i!=null?((DeclistContext)_localctx).i.getText():null),((DeclistContext)_localctx).t.ast,((DeclistContext)_localctx).e.ast);  
 					             _localctx.astlist.add(v);                                 
 					             HashMap<String,STentry> hm = symTable.get(nestingLevel);
-					             if ( hm.put((((DeclistContext)_localctx).i!=null?((DeclistContext)_localctx).i.getText():null),new STentry(nestingLevel,((DeclistContext)_localctx).t.ast)) != null  )
+					             if ( hm.put((((DeclistContext)_localctx).i!=null?((DeclistContext)_localctx).i.getText():null),new STentry(nestingLevel,((DeclistContext)_localctx).t.ast,offset--)) != null  )
 					             {System.out.println("Var id "+(((DeclistContext)_localctx).i!=null?((DeclistContext)_localctx).i.getText():null)+" at line "+(((DeclistContext)_localctx).i!=null?((DeclistContext)_localctx).i.getLine():0)+" already declared");
 					              System.exit(0);}  
 					            
@@ -305,7 +307,7 @@ public class FOOLParser extends Parser {
 					               FunNode f = new FunNode((((DeclistContext)_localctx).i!=null?((DeclistContext)_localctx).i.getText():null),((DeclistContext)_localctx).t.ast);      
 					               _localctx.astlist.add(f);                              
 					               HashMap<String,STentry> hm = symTable.get(nestingLevel);
-					               STentry entry=new STentry(nestingLevel);
+					               STentry entry=new STentry(nestingLevel,offset--);
 					               if ( hm.put((((DeclistContext)_localctx).i!=null?((DeclistContext)_localctx).i.getText():null),entry) != null  )
 					               {System.out.println("Fun id "+(((DeclistContext)_localctx).i!=null?((DeclistContext)_localctx).i.getText():null)+" at line "+(((DeclistContext)_localctx).i!=null?((DeclistContext)_localctx).i.getLine():0)+" already declared");
 					                System.exit(0);}
@@ -317,6 +319,8 @@ public class FOOLParser extends Parser {
 					setState(43);
 					match(LPAR);
 					ArrayList<Node> parTypes = new ArrayList<Node>();
+					              	    int paroffset=1;
+					                    
 					setState(60);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
@@ -332,7 +336,7 @@ public class FOOLParser extends Parser {
 						                  parTypes.add(((DeclistContext)_localctx).fty.ast);
 						                  ParNode fpar = new ParNode((((DeclistContext)_localctx).fid!=null?((DeclistContext)_localctx).fid.getText():null),((DeclistContext)_localctx).fty.ast); //creo nodo ParNode
 						                  f.addPar(fpar);                                 //lo attacco al FunNode con addPar
-						                  if ( hmn.put((((DeclistContext)_localctx).fid!=null?((DeclistContext)_localctx).fid.getText():null),new STentry(nestingLevel,((DeclistContext)_localctx).fty.ast)) != null  ) //aggiungo dich a hmn
+						                  if ( hmn.put((((DeclistContext)_localctx).fid!=null?((DeclistContext)_localctx).fid.getText():null),new STentry(nestingLevel,((DeclistContext)_localctx).fty.ast,paroffset++)) != null  ) //aggiungo dich a hmn
 						                  {System.out.println("Parameter id "+(((DeclistContext)_localctx).fid!=null?((DeclistContext)_localctx).fid.getText():null)+" at line "+(((DeclistContext)_localctx).fid!=null?((DeclistContext)_localctx).fid.getLine():0)+" already declared");
 						                   System.exit(0);}
 						                  
@@ -354,7 +358,7 @@ public class FOOLParser extends Parser {
 							                    parTypes.add(((DeclistContext)_localctx).ty.ast);
 							                    ParNode par = new ParNode((((DeclistContext)_localctx).id!=null?((DeclistContext)_localctx).id.getText():null),((DeclistContext)_localctx).ty.ast);
 							                    f.addPar(par);
-							                    if ( hmn.put((((DeclistContext)_localctx).id!=null?((DeclistContext)_localctx).id.getText():null),new STentry(nestingLevel,((DeclistContext)_localctx).ty.ast)) != null  )
+							                    if ( hmn.put((((DeclistContext)_localctx).id!=null?((DeclistContext)_localctx).id.getText():null),new STentry(nestingLevel,((DeclistContext)_localctx).ty.ast,paroffset++)) != null  )
 							                    {System.out.println("Parameter id "+(((DeclistContext)_localctx).id!=null?((DeclistContext)_localctx).id.getText():null)+" at line "+(((DeclistContext)_localctx).id!=null?((DeclistContext)_localctx).id.getLine():0)+" already declared");
 							                     System.exit(0);}
 							                    
@@ -785,7 +789,7 @@ public class FOOLParser extends Parser {
 				           if (entry==null)
 				           {System.out.println("Id "+(((ValueContext)_localctx).i!=null?((ValueContext)_localctx).i.getText():null)+" at line "+(((ValueContext)_localctx).i!=null?((ValueContext)_localctx).i.getLine():0)+" not declared");
 				            System.exit(0);}               
-					   ((ValueContext)_localctx).ast =  new IdNode((((ValueContext)_localctx).i!=null?((ValueContext)_localctx).i.getText():null),entry);
+					   ((ValueContext)_localctx).ast =  new IdNode((((ValueContext)_localctx).i!=null?((ValueContext)_localctx).i.getText():null),entry,nestingLevel);
 				setState(169);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
@@ -824,7 +828,7 @@ public class FOOLParser extends Parser {
 
 					setState(167);
 					match(RPAR);
-					((ValueContext)_localctx).ast =  new CallNode((((ValueContext)_localctx).i!=null?((ValueContext)_localctx).i.getText():null),entry,arglist);
+					((ValueContext)_localctx).ast =  new CallNode((((ValueContext)_localctx).i!=null?((ValueContext)_localctx).i.getText():null),entry,arglist,nestingLevel);
 					}
 				}
 

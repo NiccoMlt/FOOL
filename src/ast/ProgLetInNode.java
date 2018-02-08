@@ -1,5 +1,6 @@
 package ast;
 import java.util.ArrayList;
+import lib.*;
 
 public class ProgLetInNode implements Node {
 
@@ -22,6 +23,11 @@ public class ProgLetInNode implements Node {
     return exp.typeCheck();
   }
     
-  //public String codeGeneration() {return "";}
-
+  public String codeGeneration() {
+	    String declCode="";
+	    for (Node dec:declist){declCode+=dec.codeGeneration();};
+		return "push 0\n"+
+			   declCode+
+			   exp.codeGeneration()+"halt\n"+ FOOLlib.getCode();
+  }
 }  

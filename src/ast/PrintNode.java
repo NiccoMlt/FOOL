@@ -15,6 +15,8 @@ public class PrintNode implements Node {
 	    return exp.typeCheck();
   }
       
-  //public String codeGeneration() {return "";}
+  public String codeGeneration() {
+		return exp.codeGeneration()+"print\n";
+  }
 
 }  

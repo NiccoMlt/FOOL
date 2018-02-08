@@ -15,6 +15,8 @@ public class IntNode implements Node {
 	return new IntTypeNode(); 
   }
   
-  //public String codeGeneration() {return "";}
+  public String codeGeneration() {
+	  return "push "+val+"\n";
+  }
 
 }  

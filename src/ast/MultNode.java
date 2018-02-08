@@ -26,6 +26,10 @@ public class MultNode implements Node {
    return new IntTypeNode();
   }
   
-  //public String codeGeneration() {return "";}
+  public String codeGeneration() {
+	  return left.codeGeneration()+
+			 right.codeGeneration()+
+			 "mult\n";
+  }
 
 }  

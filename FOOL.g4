@@ -20,7 +20,7 @@ int lexicalErrors=0;
 /*------------------------------------------------------------------
  * PARSER RULES
  *------------------------------------------------------------------*/
-
+ 
 prog returns [Node ast]
 	: {HashMap<String,STentry> hm = new HashMap<String,STentry> ();
        symTable.add(hm);}          
@@ -33,13 +33,15 @@ prog returns [Node ast]
       SEMIC ;
 
 declist	returns [ArrayList<Node> astlist]        
-	: {$astlist= new ArrayList<Node>() ;}      
+	: {$astlist= new ArrayList<Node>() ;
+	   int offset=-2;
+	  }      
 	  ( (
             VAR i=ID COLON t=type ASS e=exp 
             {VarNode v = new VarNode($i.text,$t.ast,$e.ast);  
              $astlist.add(v);                                 
              HashMap<String,STentry> hm = symTable.get(nestingLevel);
-             if ( hm.put($i.text,new STentry(nestingLevel,$t.ast)) != null  )
+             if ( hm.put($i.text,new STentry(nestingLevel,$t.ast,offset--)) != null  )
              {System.out.println("Var id "+$i.text+" at line "+$i.line+" already declared");
               System.exit(0);}  
             }  
@@ -49,7 +51,7 @@ declist	returns [ArrayList<Node> astlist]
                FunNode f = new FunNode($i.text,$t.ast);      
                $astlist.add(f);                              
                HashMap<String,STentry> hm = symTable.get(nestingLevel);
-               STentry entry=new STentry(nestingLevel);
+               STentry entry=new STentry(nestingLevel,offset--);
                if ( hm.put($i.text,entry) != null  )
                {System.out.println("Fun id "+$i.text+" at line "+$i.line+" already declared");
                 System.exit(0);}
@@ -58,14 +60,16 @@ declist	returns [ArrayList<Node> astlist]
                 HashMap<String,STentry> hmn = new HashMap<String,STentry> ();
                 symTable.add(hmn);
                 }
-              LPAR {ArrayList<Node> parTypes = new ArrayList<Node>();}
+              LPAR {ArrayList<Node> parTypes = new ArrayList<Node>();
+              	    int paroffset=1;
+                    }
                 //DA QUI ESERCITAZIONE
                 (fid=ID COLON fty=type
                   { 
                   parTypes.add($fty.ast);
                   ParNode fpar = new ParNode($fid.text,$fty.ast); //creo nodo ParNode
                   f.addPar(fpar);                                 //lo attacco al FunNode con addPar
-                  if ( hmn.put($fid.text,new STentry(nestingLevel,$fty.ast)) != null  ) //aggiungo dich a hmn
+                  if ( hmn.put($fid.text,new STentry(nestingLevel,$fty.ast,paroffset++)) != null  ) //aggiungo dich a hmn
                   {System.out.println("Parameter id "+$fid.text+" at line "+$fid.line+" already declared");
                    System.exit(0);}
                   }
@@ -74,7 +78,7 @@ declist	returns [ArrayList<Node> astlist]
                     parTypes.add($ty.ast);
                     ParNode par = new ParNode($id.text,$ty.ast);
                     f.addPar(par);
-                    if ( hmn.put($id.text,new STentry(nestingLevel,$ty.ast)) != null  )
+                    if ( hmn.put($id.text,new STentry(nestingLevel,$ty.ast,paroffset++)) != null  )
                     {System.out.println("Parameter id "+$id.text+" at line "+$id.line+" already declared");
                      System.exit(0);}
                     }
@@ -142,14 +146,14 @@ value	returns [Node ast]
            if (entry==null)
            {System.out.println("Id "+$i.text+" at line "+$i.line+" not declared");
             System.exit(0);}               
-	   $ast= new IdNode($i.text,entry);} 
+	   $ast= new IdNode($i.text,entry,nestingLevel);} 
 	   ( LPAR
 	   	 {ArrayList<Node> arglist = new ArrayList<Node>();} 
 	   	 ( a=exp {arglist.add($a.ast);} 
 	   	 	(COMMA a=exp {arglist.add($a.ast);} )*
 	   	 )? 
 	   	 RPAR
-	   	 {$ast= new CallNode($i.text,entry,arglist);} 
+	   	 {$ast= new CallNode($i.text,entry,arglist,nestingLevel);} 
 	   )?
  	; 
 

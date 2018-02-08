@@ -18,6 +18,8 @@ public class ProgNode implements Node {
 	    return exp.typeCheck();
   }
     
-  //public String codeGeneration() {return "";}
+  public String codeGeneration() {
+	return exp.codeGeneration()+"halt\n";
+  }
 
 }  
