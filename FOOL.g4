@@ -8,29 +8,27 @@ import ast.*;
 int lexicalErrors=0;
 }
 
- 
+
 /*------------------------------------------------------------------
  * PARSER RULES
  *------------------------------------------------------------------*/
 
-prog returns [Node ast] : e=exp {$ast=$e.ast;} SEMIC ; // ProgNode ha un campo Node
+prog : exp SEMIC ; 
 	 	
-exp	returns [Node ast] : t=term {$ast=$t.ast;} 
-                         (PLUS t=term {$ast=new PlusNode($ast,$t.ast);})* ; 
+exp	: term (PLUS term)* ; 
  	
-term returns [Node ast] : f=factor {$ast=$f.ast;} 
-                         (TIMES f=factor {$ast=new TimesNode($ast,$f.ast);})* ; 
+term : factor (TIMES factor)* ; 
 	 
-factor returns [Node ast] : v=value {$ast=$v.ast;} (EQ value)* ;  // EqNode
+factor : value (EQ value)* ;	 	
   	          	
-value returns [Node ast] : 
-      i=INTEGER {$ast=new IntNode(Integer.parseInt($i.text));}  
-	| TRUE   // BoolNode(true) ha un campo boolean
-	| FALSE  // BoolNode(false) ha un campo boolean
-	| LPAR e=exp RPAR {$ast=$e.ast;} 
-	| IF exp THEN CLPAR exp CRPAR // IfNode ha 3 campi Node
+value	: 
+    INTEGER   
+	| TRUE      
+	| FALSE     
+	| LPAR exp RPAR   
+	| IF exp THEN CLPAR exp CRPAR 
 		   ELSE CLPAR exp CRPAR 
-	| PRINT LPAR exp RPAR // PrintNode ha un campo Node	
+	| PRINT LPAR exp RPAR	
  	; 
 
   		
@@ -38,7 +36,7 @@ value returns [Node ast] :
  * LEXER RULES
  *------------------------------------------------------------------*/
 SEMIC	: ';' ;
-EQ	    : '==' ;
+EQ	: '==' ;
 PLUS	: '+' ;
 TIMES	: '*' ;
 INTEGER : ('-')?(('1'..'9')('0'..'9')*) | '0';
