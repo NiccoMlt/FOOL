@@ -2,3 +2,7 @@
 /SimpleExpLexer.java
 /SimpleExpLexer.tokens
 /SimpleExpParser.java
+/SVM.tokens
+/SVMLexer.java
+/SVMLexer.tokens
+/SVMParser.java

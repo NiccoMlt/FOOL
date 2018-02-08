@@ -1,0 +1,31 @@
+CONSEGNA ORE 9:00 DEL 10 NOVEMBRE 2017
+=======================================
+PER LA CONSEGNA, CREARE NELLE VOSTRE DIRECTORY PERSONALI
+SU SCAMBIOSCIENZE UNA SUBDIRECTORY CHIAMATA
+Esercizio_per_10_Novembre
+DOVE DEVONO ESSERE PRESENTI SOLO I SEGUENTI 2 FILE:
+- LA GRAMMATICA "SVM.g4" 
+- LA CLASSE JAVA "ExecuteVM.java"
+=======================================
+
+Completare l'implementazione della Virtual Machine
+considerando l'intera grammatica SVM.g4 (terminando tutte le operazioni).
+
+Si noti che sono previsti i seguenti registri interni:
+HP (heap pointer)
+FP (frame pointer)
+RA (return address)
+RV (return value)
+
+Inizialmente FP deve essere inizializzato come SP mentre HP 
+deve essere inizializzato a 0.
+L'idea e' che FP verra' usato per accedere ai cosiddetti activation record che vengono memorizzati nella parte "stack" della memoria (con lo stack collocato nella parte di memoria con indirizzi grandi), mentre lo heap occupa la parte di memoria con indirizzi piccoli.
+I registri interni RA e RV serviranno per memorizzazione temporaneamente valori necessari per implementare le chiamate di funzioni. 
+
+Come test, provare il file "quicksort.fool.asm" che dovrebbe stampare:
+1
+2
+2
+3
+4
+5

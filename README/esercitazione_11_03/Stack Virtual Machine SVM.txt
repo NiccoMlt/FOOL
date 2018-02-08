@@ -1,0 +1,50 @@
+
+               compilatore fool                     assemblatore svm 
+quicksort.fool ----------------> quicksort.fool.asm ----------------> codice oggetto 
+                                (assembler della SVM)                        |
+                                                                             |
+                                                                             V
+                                                                    Stack Virtual Machine
+
+
+-----------------------------------------------
+Stack Virtual Machine
+
+5+3
+
+push 5
+push 3
+add (fa il pop dei due valori che sono in cima allo stack e poi push del risultato)
+
+5-3
+
+push 5
+push 3
+sub (fa il pop dei due valori che sono in cima allo stack e poi push del risultato)
+
+-------------
+
+(exp1) op (exp2)
+
+calcolo exp1 (fa calcoli e produce un risultato come unico valore aggiunto in cima allo stack)
+calcolo exp2 (fa calcoli e produce un risultato come unico valore aggiunto in cima allo stack)
+op
+----------------
+
+esempio:
+
+cacolo ((a+b)*(c-d))/(a*e)
+
+push a
+push b
+add
+push c
+push d 
+sub
+mult
+push a
+push e
+mult
+div
+
+

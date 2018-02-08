@@ -1,0 +1,115 @@
+Correzione esercizio per casa:
+
+Considerare il linguaggio L delle stringhe su alfabeto {a,b} per cui il numero delle "a", è diverso dal numero delle "b". L è un linguaggio libero? In caso affermativo mostrare un automa a pila che lo riconosca per stato finale.
+
+Considerare il linguaggio L delle stringhe su alfabeto {a,b,c} per cui non vale che il numero delle "a", delle "b" e delle "c" è lo stesso (vi sono almeno due tra "a", "b" e "c" per cui la quantità delle une è diversa dalla quantità delle altre). L è un linguaggio libero? Qual'è il suo complementare?
+
+-------------------------------
+
+Esempi eliminazione ricorsione a sinistra visti nei lucidi:
+
+Ricorsione diretta:
+S -> S0 | 1
+
+ELIMINAZIONE:
+
+S -> 1S'
+S'-> 0S'|\epsilon
+
+
+
+Ricorsione indiretta:
+S -> A0 | 1
+A -> S2
+
+ELIMINAZIONE:
+
+PRIMA VAR
+S -> A0 | 1
+SECONDA VAR
+A -> S2
+ESPANSO IN
+A -> A02 | 12
+QUINDI
+A -> 12A'
+A'-> 02A'|\epsilon
+
+CONCLUDENDO
+S -> A0 | 1
+A -> 12A'
+A'-> 02A'|\epsilon
+
+
+-------------------------------
+
+Consideriamo la solita grammatica:
+
+E -> E+E | E*E | (E) | n
+
+VOGLIAMO FARE PARSING TOP-DOWN 
+(ANTLR USA PARSING TOP-DOWN)
+
+DOBBIAMO:
+a) disambiguare la grammatica (se ambigua)
+b) eliminare la ricorsione a sinistra (se c'è)
+c) fare left-factoring (se necessario)
+
+
+Per a) consideriamo 2 esempi di disambiguazione.
+
+PER CIASCUNO DEGLI ESEMPI TERMINIAMO LA PREPARAZIONE DELLA 
+GRAMMATICA ESEGUENDO I PASSI b) e c)
+--------------
+1) Associativita' a DESTRA per + e * (e priorità di * su +):
+
+E -> T + E | T
+T -> V * T | V
+V -> n | ( E )
+
+Questa è la grammatica SimpleExp.g (ultima esercitazione)
+e quella dei lucidi su top-down parsing
+
+punto b) non c'e' ric a sin quindi nulla da fare
+
+punto c) left-factoring:
+
+E -> T E'
+E' -> + E | \epslon
+T -> V T'
+T' -> * T | \epsilon
+V -> n | ( E )
+
+
+--------------
+2) Associativita' a SINISTRA per + e * (e priorità di * su +):
+
+E -> E + T | T
+T -> T * V | V
+V -> n | ( E )
+--------------
+
+punto b)
+
+E -> E + T | T
+DIVENTA
+E -> T E'
+E' -> + T E' | \epsilon
+
+T -> T * V | V
+DIVENTA
+T -> V T'
+T' -> * V T' | \epsilon
+
+QUINDI:
+E -> T E'
+E' -> + T E' | \epsilon
+T -> V T'
+T' -> * V T' | \epsilon
+V -> n | ( E )
+
+punto c) nulla da fare
+
+
+
+
+
