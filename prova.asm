@@ -9,9 +9,9 @@
     push 8
     push 9
     push 10
-    
+
 l1: print  
-    push 0 
+    push 0
     bleq l2
     b l1  
    
