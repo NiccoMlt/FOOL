@@ -4,7 +4,7 @@ public class EqualNode implements Node {
     private Node left;
     private Node right;
   
-    public EqualNode(Node l, Node r) {
+    public EqualNode (Node l, Node r) {
         left=l;
         right=r;
     }

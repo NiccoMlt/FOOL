@@ -1,5 +1,5 @@
 package ast;
 
-public interface Node {    
+public interface Node {
     String toPrint(String indent);
 }  

@@ -1,0 +1,62 @@
+CONSEGNA ORE 14:00 DEL 21 NOVEMBRE 2017
+=======================================
+PER LA CONSEGNA, CREARE NELLE VOSTRE DIRECTORY PERSONALI
+SU SCAMBIOSCIENZE UNA SUBDIRECTORY CHIAMATA
+Esercizio_per_21_Novembre
+DOVE DEVONO ESSERE PRESENTI:
+
+- LA GRAMMATICA "FOOL.g4" COMPRENDENTE ANCHE LA PARTE 
+DI 
+DICHIARAZIONE DEI PARAMETRI FORMALI DELLE FUNZIONI,
+E 
+INSERIMENTO DICHIARAZIONI PARAMETRI IN 
+SYMBOL TABLE
+
+- UNA SOTTODIRECTORY "src/ast/" CONTENENTE 
+LE CLASSI JAVA 
+PER L'IMPLEMENTAZIONE DEL 
+AST, CONSIDERANDO ANCHE 
+LA DICHIARAZIONE DEI PARAMETRI, E LA CLASSE STentry 
+(tutte dotate di metodo toPrint per la stampa dell'AST 
+"decorato" con "STentry")
+
+
+=======================================
+Come test di autovalutazione potete usare il main
+
+della classe "Test.java" che esegue il parsing del
+
+file "prova.fool" che contiene funzioni con parametri.
+In output dovete ottenere il seguente AST "decorato" con "STentry":
+
+ProgLetIn
+  Var:x
+    IntType
+    Plus
+      Int:5
+      Int:3
+  Fun:f
+    BoolType
+    Par:n
+      IntType
+    Par:m
+      IntType
+    Var:x
+      BoolType
+      Bool:true
+    Equal
+      Id:x
+        STentry: nestlev 1
+      Equal
+        Id:n
+          STentry: nestlev 1
+        Id:m
+          STentry: nestlev 1
+  Print
+    If
+      Equal
+        Id:x
+          STentry: nestlev 0
+        Int:2
+      Bool:false
+      Bool:true

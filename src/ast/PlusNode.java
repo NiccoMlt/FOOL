@@ -4,7 +4,7 @@ public class PlusNode implements Node {
     private Node left;
     private Node right;
   
-    public PlusNode(Node l, Node r) {
+    public PlusNode (Node l, Node r) {
         left=l;
         right=r;
     }

@@ -1,9 +1,10 @@
 package ast;
 
 public class BoolNode implements Node {
+
     private boolean val;
   
-    public BoolNode(boolean n) {
+    public BoolNode (boolean n) {
         val=n;
     }
   
@@ -11,7 +12,7 @@ public class BoolNode implements Node {
         if (val) {
             return s+"Bool:true\n";
         } else {
-            return s+"Bool:false\n";
+            return s+"Bool:false\n";  
         }
     }  
 }  
