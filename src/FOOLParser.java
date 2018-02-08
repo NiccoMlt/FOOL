@@ -87,10 +87,12 @@ public class FOOLParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class ProgContext extends ParserRuleContext {
+		public Node ast;
+		public ExpContext e;
+		public TerminalNode SEMIC() { return getToken(FOOLParser.SEMIC, 0); }
 		public ExpContext exp() {
 			return getRuleContext(ExpContext.class,0);
 		}
-		public TerminalNode SEMIC() { return getToken(FOOLParser.SEMIC, 0); }
 		public ProgContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -104,9 +106,10 @@ public class FOOLParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(10);
-			exp();
+			((ProgContext)_localctx).e = exp();
 			setState(11);
 			match(SEMIC);
+			((ProgContext)_localctx).ast =  new ProgNode(((ProgContext)_localctx).e.ast);
 			}
 		}
 		catch (RecognitionException re) {
@@ -121,6 +124,9 @@ public class FOOLParser extends Parser {
 	}
 
 	public static class ExpContext extends ParserRuleContext {
+		public Node ast;
+		public TermContext f;
+		public TermContext l;
 		public List<TermContext> term() {
 			return getRuleContexts(TermContext.class);
 		}
@@ -144,21 +150,23 @@ public class FOOLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(13);
-			term();
-			setState(18);
+			setState(14);
+			((ExpContext)_localctx).f = term();
+			((ExpContext)_localctx).ast =  ((ExpContext)_localctx).f.ast;
+			setState(22);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==PLUS) {
 				{
 				{
-				setState(14);
+				setState(16);
 				match(PLUS);
-				setState(15);
-				term();
+				setState(17);
+				((ExpContext)_localctx).l = term();
+				((ExpContext)_localctx).ast =  new PlusNode (_localctx.ast,((ExpContext)_localctx).l.ast);
 				}
 				}
-				setState(20);
+				setState(24);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -176,6 +184,9 @@ public class FOOLParser extends Parser {
 	}
 
 	public static class TermContext extends ParserRuleContext {
+		public Node ast;
+		public FactorContext f;
+		public FactorContext l;
 		public List<FactorContext> factor() {
 			return getRuleContexts(FactorContext.class);
 		}
@@ -199,21 +210,23 @@ public class FOOLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(21);
-			factor();
-			setState(26);
+			setState(25);
+			((TermContext)_localctx).f = factor();
+			((TermContext)_localctx).ast =  ((TermContext)_localctx).f.ast;
+			setState(33);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==TIMES) {
 				{
 				{
-				setState(22);
+				setState(27);
 				match(TIMES);
-				setState(23);
-				factor();
-				}
-				}
 				setState(28);
+				((TermContext)_localctx).l = factor();
+				((TermContext)_localctx).ast =  new TimesNode (_localctx.ast,((TermContext)_localctx).l.ast);
+				}
+				}
+				setState(35);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -231,6 +244,9 @@ public class FOOLParser extends Parser {
 	}
 
 	public static class FactorContext extends ParserRuleContext {
+		public Node ast;
+		public ValueContext f;
+		public ValueContext l;
 		public List<ValueContext> value() {
 			return getRuleContexts(ValueContext.class);
 		}
@@ -254,21 +270,23 @@ public class FOOLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(29);
-			value();
-			setState(34);
+			setState(36);
+			((FactorContext)_localctx).f = value();
+			((FactorContext)_localctx).ast =  ((FactorContext)_localctx).f.ast;
+			setState(44);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==EQ) {
 				{
 				{
-				setState(30);
+				setState(38);
 				match(EQ);
-				setState(31);
-				value();
+				setState(39);
+				((FactorContext)_localctx).l = value();
+				((FactorContext)_localctx).ast =  new EqualNode (_localctx.ast,((FactorContext)_localctx).l.ast);
 				}
 				}
-				setState(36);
+				setState(46);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -286,17 +304,23 @@ public class FOOLParser extends Parser {
 	}
 
 	public static class ValueContext extends ParserRuleContext {
+		public Node ast;
+		public Token n;
+		public ExpContext e;
+		public ExpContext x;
+		public ExpContext y;
+		public ExpContext z;
 		public TerminalNode INTEGER() { return getToken(FOOLParser.INTEGER, 0); }
 		public TerminalNode TRUE() { return getToken(FOOLParser.TRUE, 0); }
 		public TerminalNode FALSE() { return getToken(FOOLParser.FALSE, 0); }
 		public TerminalNode LPAR() { return getToken(FOOLParser.LPAR, 0); }
+		public TerminalNode RPAR() { return getToken(FOOLParser.RPAR, 0); }
 		public List<ExpContext> exp() {
 			return getRuleContexts(ExpContext.class);
 		}
 		public ExpContext exp(int i) {
 			return getRuleContext(ExpContext.class,i);
 		}
-		public TerminalNode RPAR() { return getToken(FOOLParser.RPAR, 0); }
 		public TerminalNode IF() { return getToken(FOOLParser.IF, 0); }
 		public TerminalNode THEN() { return getToken(FOOLParser.THEN, 0); }
 		public List<TerminalNode> CLPAR() { return getTokens(FOOLParser.CLPAR); }
@@ -319,77 +343,83 @@ public class FOOLParser extends Parser {
 		ValueContext _localctx = new ValueContext(_ctx, getState());
 		enterRule(_localctx, 8, RULE_value);
 		try {
-			setState(60);
+			setState(76);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case INTEGER:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(37);
-				match(INTEGER);
+				setState(47);
+				((ValueContext)_localctx).n = match(INTEGER);
+				((ValueContext)_localctx).ast =  new IntNode(Integer.parseInt((((ValueContext)_localctx).n!=null?((ValueContext)_localctx).n.getText():null)));
 				}
 				break;
 			case TRUE:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(38);
+				setState(49);
 				match(TRUE);
+				((ValueContext)_localctx).ast =  new BoolNode(true);
 				}
 				break;
 			case FALSE:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(39);
+				setState(51);
 				match(FALSE);
+				((ValueContext)_localctx).ast =  new BoolNode(false);
 				}
 				break;
 			case LPAR:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(40);
+				setState(53);
 				match(LPAR);
-				setState(41);
-				exp();
-				setState(42);
+				setState(54);
+				((ValueContext)_localctx).e = exp();
+				setState(55);
 				match(RPAR);
+				((ValueContext)_localctx).ast =  ((ValueContext)_localctx).e.ast;
 				}
 				break;
 			case IF:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(44);
+				setState(58);
 				match(IF);
-				setState(45);
-				exp();
-				setState(46);
+				setState(59);
+				((ValueContext)_localctx).x = exp();
+				setState(60);
 				match(THEN);
-				setState(47);
+				setState(61);
 				match(CLPAR);
-				setState(48);
-				exp();
-				setState(49);
+				setState(62);
+				((ValueContext)_localctx).y = exp();
+				setState(63);
 				match(CRPAR);
-				setState(50);
+				setState(64);
 				match(ELSE);
-				setState(51);
+				setState(65);
 				match(CLPAR);
-				setState(52);
-				exp();
-				setState(53);
+				setState(66);
+				((ValueContext)_localctx).z = exp();
+				setState(67);
 				match(CRPAR);
+				((ValueContext)_localctx).ast =  new IfNode(((ValueContext)_localctx).x.ast,((ValueContext)_localctx).y.ast,((ValueContext)_localctx).z.ast);
 				}
 				break;
 			case PRINT:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(55);
+				setState(70);
 				match(PRINT);
-				setState(56);
+				setState(71);
 				match(LPAR);
-				setState(57);
-				exp();
-				setState(58);
+				setState(72);
+				((ValueContext)_localctx).e = exp();
+				setState(73);
 				match(RPAR);
+				((ValueContext)_localctx).ast =  new PrintNode(((ValueContext)_localctx).e.ast);
 				}
 				break;
 			default:
@@ -408,23 +438,26 @@ public class FOOLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\24A\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\3\2\3\2\3\2\3\3\3\3\3\3\7\3\23\n\3\f\3\16\3"+
-		"\26\13\3\3\4\3\4\3\4\7\4\33\n\4\f\4\16\4\36\13\4\3\5\3\5\3\5\7\5#\n\5"+
-		"\f\5\16\5&\13\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3"+
-		"\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6?\n\6\3\6\2\2\7\2\4\6\b\n\2"+
-		"\2\2C\2\f\3\2\2\2\4\17\3\2\2\2\6\27\3\2\2\2\b\37\3\2\2\2\n>\3\2\2\2\f"+
-		"\r\5\4\3\2\r\16\7\3\2\2\16\3\3\2\2\2\17\24\5\6\4\2\20\21\7\5\2\2\21\23"+
-		"\5\6\4\2\22\20\3\2\2\2\23\26\3\2\2\2\24\22\3\2\2\2\24\25\3\2\2\2\25\5"+
-		"\3\2\2\2\26\24\3\2\2\2\27\34\5\b\5\2\30\31\7\6\2\2\31\33\5\b\5\2\32\30"+
-		"\3\2\2\2\33\36\3\2\2\2\34\32\3\2\2\2\34\35\3\2\2\2\35\7\3\2\2\2\36\34"+
-		"\3\2\2\2\37$\5\n\6\2 !\7\4\2\2!#\5\n\6\2\" \3\2\2\2#&\3\2\2\2$\"\3\2\2"+
-		"\2$%\3\2\2\2%\t\3\2\2\2&$\3\2\2\2\'?\7\7\2\2(?\7\b\2\2)?\7\t\2\2*+\7\n"+
-		"\2\2+,\5\4\3\2,-\7\13\2\2-?\3\2\2\2./\7\16\2\2/\60\5\4\3\2\60\61\7\17"+
-		"\2\2\61\62\7\f\2\2\62\63\5\4\3\2\63\64\7\r\2\2\64\65\7\20\2\2\65\66\7"+
-		"\f\2\2\66\67\5\4\3\2\678\7\r\2\28?\3\2\2\29:\7\21\2\2:;\7\n\2\2;<\5\4"+
-		"\3\2<=\7\13\2\2=?\3\2\2\2>\'\3\2\2\2>(\3\2\2\2>)\3\2\2\2>*\3\2\2\2>.\3"+
-		"\2\2\2>9\3\2\2\2?\13\3\2\2\2\6\24\34$>";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\24Q\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\4\5\t\5\4\6\t\6\3\2\3\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\7\3"+
+		"\27\n\3\f\3\16\3\32\13\3\3\4\3\4\3\4\3\4\3\4\3\4\7\4\"\n\4\f\4\16\4%\13"+
+		"\4\3\5\3\5\3\5\3\5\3\5\3\5\7\5-\n\5\f\5\16\5\60\13\5\3\6\3\6\3\6\3\6\3"+
+		"\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6"+
+		"\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6O\n\6\3\6\2\2\7\2\4\6\b\n\2\2\2S\2\f\3"+
+		"\2\2\2\4\20\3\2\2\2\6\33\3\2\2\2\b&\3\2\2\2\nN\3\2\2\2\f\r\5\4\3\2\r\16"+
+		"\7\3\2\2\16\17\b\2\1\2\17\3\3\2\2\2\20\21\5\6\4\2\21\30\b\3\1\2\22\23"+
+		"\7\5\2\2\23\24\5\6\4\2\24\25\b\3\1\2\25\27\3\2\2\2\26\22\3\2\2\2\27\32"+
+		"\3\2\2\2\30\26\3\2\2\2\30\31\3\2\2\2\31\5\3\2\2\2\32\30\3\2\2\2\33\34"+
+		"\5\b\5\2\34#\b\4\1\2\35\36\7\6\2\2\36\37\5\b\5\2\37 \b\4\1\2 \"\3\2\2"+
+		"\2!\35\3\2\2\2\"%\3\2\2\2#!\3\2\2\2#$\3\2\2\2$\7\3\2\2\2%#\3\2\2\2&\'"+
+		"\5\n\6\2\'.\b\5\1\2()\7\4\2\2)*\5\n\6\2*+\b\5\1\2+-\3\2\2\2,(\3\2\2\2"+
+		"-\60\3\2\2\2.,\3\2\2\2./\3\2\2\2/\t\3\2\2\2\60.\3\2\2\2\61\62\7\7\2\2"+
+		"\62O\b\6\1\2\63\64\7\b\2\2\64O\b\6\1\2\65\66\7\t\2\2\66O\b\6\1\2\678\7"+
+		"\n\2\289\5\4\3\29:\7\13\2\2:;\b\6\1\2;O\3\2\2\2<=\7\16\2\2=>\5\4\3\2>"+
+		"?\7\17\2\2?@\7\f\2\2@A\5\4\3\2AB\7\r\2\2BC\7\20\2\2CD\7\f\2\2DE\5\4\3"+
+		"\2EF\7\r\2\2FG\b\6\1\2GO\3\2\2\2HI\7\21\2\2IJ\7\n\2\2JK\5\4\3\2KL\7\13"+
+		"\2\2LM\b\6\1\2MO\3\2\2\2N\61\3\2\2\2N\63\3\2\2\2N\65\3\2\2\2N\67\3\2\2"+
+		"\2N<\3\2\2\2NH\3\2\2\2O\13\3\2\2\2\6\30#.N";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

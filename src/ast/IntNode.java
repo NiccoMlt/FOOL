@@ -1,15 +1,13 @@
 package ast;
 
 public class IntNode implements Node {
-
-	public int integer;
-	
-	public IntNode (int i) {
-		integer=i;
-	}
-	
-	public String toPrint(String indent) {
-		  return indent+"Int:"+integer+"\n";
-	}
-	
-}
+    private Integer val;
+  
+    public IntNode (Integer n) {
+        val=n;
+    }
+  
+    public String toPrint(String s) {
+        return s+"Int:" + Integer.toString(val) +"\n";  
+    }
+}  

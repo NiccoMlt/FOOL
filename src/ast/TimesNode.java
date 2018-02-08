@@ -1,18 +1,16 @@
 package ast;
 
 public class TimesNode implements Node {
+    private Node left;
+    private Node right;
 
-	public Node left;
-	public Node right;
-	
-	public TimesNode (Node l, Node r) {
-		left=l;
-		right=r;
-	}
-	
-	public String toPrint(String indent) {
-		  return indent+"Times\n"+
-				  left.toPrint(indent+"  ")+
-				  right.toPrint(indent+"  ");
-	}
-}
+    public TimesNode (Node l, Node r) {
+        left=l;
+        right=r;
+    }
+  
+    public String toPrint(String s) {
+        return s+"Times\n" + left.toPrint(s+"  ")  
+                     + right.toPrint(s+"  ") ; 
+    }
+}  
