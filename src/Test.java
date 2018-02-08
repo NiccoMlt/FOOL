@@ -3,7 +3,7 @@ import org.antlr.v4.runtime.*;
 /**
  * Il seguente codice mette in esecuzione il tutto:
  * <p><ul>
- * <li>si aspetta che lo stream input sia presente in un file denominato prova.asm;
+ * <li>si aspetta che lo stream input sia presente in un file denominato quicksort.fool.asm;
  * <li>legge un {@link CharStream} dal file;
  * <li>passa il {@link CharStream} al {@link SVMLexer};
  * <li>crea un {@link CommonTokenStream} dal Lexer;
@@ -15,14 +15,14 @@ import org.antlr.v4.runtime.*;
 public class Test {
 	
 	/**
-	 * Mette in esecuzione il codice, caricando la stringa da un file prova.asm.
+	 * Mette in esecuzione il codice, caricando la stringa da un file quicksort.fool.asm.
 	 * 
 	 * @param args argomenti del metodo main, inutili
 	 * @throws Exception nel caso in cui vengano tirate eccezioni per errori vari
 	 */
     public static void main(String[] args) throws Exception {
      
-        String fileName = "prova.asm";
+        String fileName = "quicksort.fool.asm";
                 
         CharStream chars = CharStreams.fromFileName(fileName);
         SVMLexer lexer = new SVMLexer(chars);
