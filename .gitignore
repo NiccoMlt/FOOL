@@ -169,3 +169,4 @@ FOOL.tokens
 FOOLLexer.java
 FOOLLexer.tokens
 FOOLParser.java
+FOOLlib.java
