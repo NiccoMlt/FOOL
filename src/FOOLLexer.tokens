@@ -1,8 +1,8 @@
 COLON=1
 COMMA=2
-EQ=3
-ASS=4
-SEMIC=5
+ASS=3
+SEMIC=4
+EQ=5
 PLUS=6
 TIMES=7
 INTEGER=8
@@ -28,9 +28,9 @@ COMMENT=27
 ERR=28
 ':'=1
 ','=2
-'=='=3
-'='=4
-';'=5
+'='=3
+';'=4
+'=='=5
 '+'=6
 '*'=7
 'true'=9

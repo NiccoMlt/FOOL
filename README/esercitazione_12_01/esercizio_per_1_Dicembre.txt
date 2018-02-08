@@ -1,0 +1,69 @@
+CONSEGNA ORE 9:00 DEL 1 DICEMBRE 2017
+=======================================
+PER LA CONSEGNA, CREARE NELLE VOSTRE DIRECTORY PERSONALI SU SCAMBIOSCIENZE 
+UNA SUBDIRECTORY CHIAMATA
+Esercizio_per_1_Dicembre (DEVE ESSERE LA UNICA SUBDIRECTORY PRESENTE)
+DOVE DEVONO ESSERE PRESENTI:
+- LA GRAMMATICA "FOOL.g4" 
+- UNA SOTTODIRECTORY "src" (con ulteriory sottodirectory "ast" e "lib") 
+CONTENENTE LE CLASSI JAVA PER L'IMPLEMENTAZIONE DEL TYPE CHECKING
+
+RISPETTO A QUANTO IMPLEMENTATO INSIEME IN DATA 21 NOVEMBRE COMPLETARE LA FASE DI TYPE CHECKING:
+- AGGIUNGENDO IL TYPE CHECKING PER LE
+ CHIAMATE DI FUNZIONI 
+- PERMETTENDO L'UTILIZZO DI BOOLEANI AL POSTO DI INTERI (E NON IL VICEVERSA)
+(si usi
+ "instanceof" di Java per controllare la classe effettiva di un oggetto contenuto in una variabile Node)
+=======================================
+Come test di autovalutazione potete usare il main della classe "Test.java" che esegue il parsing del file "prova.fool" che contiene funzioni ed assume la possibilità di utilizzare booleani al posto di interi.
+Dovete ottenere il seguente output:
+
+Visualizing AST...
+ProgLetIn
+  Var:x
+    IntType
+    Plus
+      Int:5
+      Int:3
+  Fun:f
+    BoolType
+    Par:n
+      IntType
+    Par:m
+      IntType
+    Var:x
+      BoolType
+      Bool:true
+    Equal
+      Id:x
+        STentry: nestlev 1
+        STentry: type
+          BoolType
+      Equal
+        Id:n
+          STentry: nestlev 1
+          STentry: type
+            IntType
+        Id:m
+          STentry: nestlev 1
+          STentry: type
+            IntType
+  Print
+    If
+      Call:f
+        STentry: nestlev 0
+        STentry: type
+          ArrowType
+            IntType
+            IntType
+            ->BoolType
+        Id:x
+          STentry: nestlev 0
+          STentry: type
+            IntType
+        Int:8
+      Bool:false
+      Int:10
+
+Type checking ok! Type of the program is: IntType
+

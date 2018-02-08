@@ -1,0 +1,3 @@
+oggetto ArrowTypeNode che contiene le info viste nei lucidi:
+
+(T1,T2,...,Tn)->T 

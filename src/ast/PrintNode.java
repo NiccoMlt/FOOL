@@ -1,13 +1,15 @@
 package ast;
 
 public class PrintNode implements Node {
-    private Node exp;
-  
+    private Node val;
+
     public PrintNode (Node v) {
-        exp=v;
+        val=v;
     }
 
     public String toPrint(String s) {
-        return s+"Print\n" + exp.toPrint(s+"  ") ;
-    }  
+        return s+"Print\n" + val.toPrint(s+"  ") ;
+    }
+
+    //public Node typeCheck() {return null;}
 }  

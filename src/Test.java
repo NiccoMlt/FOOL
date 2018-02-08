@@ -31,7 +31,7 @@ public class Test {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         FOOLParser parser = new FOOLParser(tokens);
         
-        Node ast = parser.prog().ast;
+        Node ast = parser.prog().ast; //generazione AST con Id associate a relative entry symbol table
         
         System.out.println("You had: "+lexer.lexicalErrors+" lexical errors and "+parser.getNumberOfSyntaxErrors()+" syntax errors.");
 

@@ -1,5 +1,5 @@
 package ast;
-//import java.util.ArrayList;
+import java.util.ArrayList;
 
 public class ProgNode implements Node {
     private Node exp;
@@ -11,4 +11,6 @@ public class ProgNode implements Node {
     public String toPrint(String s) {
         return s+"Prog\n" + exp.toPrint(s+"  ") ;
     }
+
+    //public Node typeCheck() {return null;}
 }  

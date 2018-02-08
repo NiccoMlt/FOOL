@@ -8,9 +8,11 @@ public class IdNode implements Node {
         id=i;
         entry=st;
     }
-  
+
     public String toPrint(String s) {
-        return s+"Id:" + id +"\n"+
-            entry.toPrint(s+"  ");
+        return s+"Id:" + id +"\n" + 
+              entry.toPrint(s+"  ") ;  
     }
+
+    //public Node typeCheck() {return null;}
 }  
