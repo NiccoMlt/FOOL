@@ -1,0 +1,19 @@
+Soluzione esercizio per oggi (versione completa dell'assembler e della SVM)
+
+---
+Syntax Directed Translation in SimpleExp e SimpleExpLeft:
+calcolo espressioni
+
+---
+Syntax Directed Translation in FOOL:
+generazione AST
+
+---
+Esercizi sul parsing top-down e bottom-up
+
+Costruire le tabelle di parsing per gli esempi di grammatiche nella directory 
+"esercizi" 
+- tabelle LL(1) per i file llparse_x.jff (calcolando First e Follow delle variabili)
+- 
+tabelle SLR(1) per i file slrparse_x.jff (calcolando First e Follow delle variabili)
+

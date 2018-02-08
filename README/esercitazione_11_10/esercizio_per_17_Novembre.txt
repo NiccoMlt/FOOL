@@ -1,0 +1,38 @@
+CONSEGNA ORE 9:00 DEL 17 NOVEMBRE 2017
+=======================================
+PER LA CONSEGNA, CREARE NELLE VOSTRE DIRECTORY PERSONALI
+SU SCAMBIOSCIENZE UNA SUBDIRECTORY CHIAMATA
+Esercizio_per_17_Novembre
+DOVE DEVONO ESSERE PRESENTI:
+- LA GRAMMATICA "FOOL.g4" 
+- UNA SOTTODIRECTORY "src" CONTENENTE
+
+LE CLASSI JAVA PER L'IMPLEMENTAZIONE DELL'Abstract Syntax Tree
+, CHE IMPLEMENTANO L'INTERFACCIA "Node" (E QUINDI HANNO IL METODO "toPrint(String indent)"
+)
+=======================================
+Come test di autovalutazione potete usare il main 
+della classe "Test.java" che esegue il parsing del 
+file "prova.fool" e poi invoca "toPrint("")"
+sull'AST costruito dal parser.
+Dovete ottenere in output:
+Prog
+  Print
+    If
+      Equal
+        Times
+          Plus
+            Nat:5
+            Nat:3
+          Nat:7
+        Nat:9
+      Bool:false
+      Bool:true
+--------
+
+ESERCIZIO PER 17 novembre su parsing (files foto di automi e tabelle di parsing)
+
+fare tabella LR(1) e LALR(1) per il file lrparse.jff 
+
+Si confronti l'automa LALR(1) dell'ultimo esercizio con l'automa SLR(1) generato da JFLAP: 
+gli stati LALR(1) e SLR(1) sono gli stessi (a parte la presenza in LALR(1) del secondo elemento negli item, che determina su quali lookahead fare reduce) in quanto ho fatto il merge di stati LR(1) con lo stesso core e il core è lo stato di SLR(1). Quello che cambia sono solo i lookahead su cui si fanno le reduce (in SLR(1) determinati dai follow, in LALR(1) dai secondi elementi degli item).
