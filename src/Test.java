@@ -8,7 +8,7 @@ import ast.Node;
 public class Test {
     public static void main(String[] args) throws Exception {
       
-        String fileName = "prova.fool";
+        String fileName = "linsum.fool";
       
         CharStream chars = CharStreams.fromFileName(fileName);
         FOOLLexer lexer = new FOOLLexer(chars);
@@ -30,7 +30,6 @@ public class Test {
         BufferedWriter out = new BufferedWriter(new FileWriter(fileName+".asm")); 
         out.write(code);
         out.close(); 
-
 
         System.out.println("Code generated! Assembling and running generated code.");
         

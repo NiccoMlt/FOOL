@@ -2,13 +2,29 @@ package ast;
 
 public interface Node {
 
+    /**
+     * Stampa il una descrizione testuale dell'operazione.
+     * 
+     * @param indent una stringa di prefisso
+     */
     String toPrint(String indent);
 
-    // fa il type checking e ritorna:
-    // per una espressione, il suo tipo (oggetto BoolTypeNode o IntTypeNode)
-    // per una dichiarazione, "null"
+    /**
+     * Fa il type checking e ritorna:
+     * <p>
+     * - per una espressione, il suo tipo (oggetto BoolTypeNode o IntTypeNode);
+     * <p>
+     * - per una dichiarazione, "null"
+     * 
+     * @return il tipo oppure null
+     */
     Node typeCheck();
 
+    /**
+     * Ritorna il codice assembly in formato stringa.
+     * 
+     * @return il codice assembly
+     */
     String codeGeneration();
 
 }
