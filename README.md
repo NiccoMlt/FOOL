@@ -1,5 +1,12 @@
 # FOOL #
 
+## OBIETTIVO DEL PROGETTO ##
+* Il progetto consiste nella realizzazione di un compilatore per il Functional and Object Oriented Language la cui sintassi è definita nel file FOOL.g4 allegato a queste slides.
+* Il linguaggio è una estensione con nuovi operatori, passaggio (higher-order) di funzioni e gestione dell’object orientation della versione di base sviluppata in laboratorio.
+* Il compilatore da realizzare deve produrre codice per la Stack Virtual Machine (SVM) sviluppata a lezione (da non modificare!!)
+
+## DIVERSI LIVELLI DI REALIZZAZIONE ##
+
 Progetto realizzabile a diversi livelli:
 
 * sola estensione del linguaggio visto a lezione con operatori "<=", ">=", "||", "&&", "/", "-" e "!", con stesso significato che hanno in C/Java (2 punti)
