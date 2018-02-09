@@ -1,7 +1,5 @@
 push 0
 push 5
-push 3
-add
 push function0
 lfp
 push 8

@@ -108,6 +108,9 @@ exp	returns [Node ast]
  	    (PLUS l=term
  	     {$ast= new PlusNode ($ast,$l.ast);}
  	    )*
+ 	    | (MINUS l=term 
+ 	    	{$ast= new MinusNode ($ast, $l.ast);}
+ 	    )*
  	;
  	
 term	returns [Node ast]
