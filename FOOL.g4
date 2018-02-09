@@ -108,9 +108,10 @@ exp	returns [Node ast]
  	    (PLUS l=term
  	     {$ast= new PlusNode ($ast,$l.ast);}
  	    )*
- 	    | (MINUS l=term 
- 	    	{$ast= new MinusNode ($ast, $l.ast);}
- 	    )*
+ 	| f=term {$ast = $f.ast;}
+		(MINUS l=term
+			{$ast = new MinusNode($ast, $l.ast);}
+		)*
  	;
  	
 term	returns [Node ast]
@@ -118,6 +119,10 @@ term	returns [Node ast]
 	    (TIMES l=factor
 	     {$ast= new MultNode ($ast,$l.ast);}
 	    )*
+	|  f=factor {$ast= $f.ast;}
+	    (DIV l=factor
+	     {$ast= new DivNode ($ast,$l.ast);}
+	    )* 
 	;
 	
 factor	returns [Node ast]
