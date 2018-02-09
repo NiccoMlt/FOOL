@@ -1,81 +1,169 @@
 grammar FOOL;
 
+@header{
+import java.util.ArrayList;
+import java.util.HashMap;
+import ast.*;
+}
+
+@parser::members{
+private int nestingLevel = 0;
+private ArrayList<HashMap<String,STentry>> symTable = new ArrayList<HashMap<String,STentry>>();
+//livello ambiente con dichiarazioni piu' esterno � 0 (prima posizione ArrayList) invece che 1 (slides)
+//il "fronte" della lista di tabelle � symTable.get(nestingLevel)
+}
+
 @lexer::members {
 int lexicalErrors=0;
 }
-  
+
 /*------------------------------------------------------------------
  * PARSER RULES
  *------------------------------------------------------------------*/
+ 
+prog returns [Node ast]
+	: {HashMap<String,STentry> hm = new HashMap<String,STentry> ();
+       symTable.add(hm);}          
+	  ( e=exp 	
+        {$ast = new ProgNode($e.ast);} 
+      | LET d=declist IN e=exp  
+        {$ast = new ProgLetInNode($d.astlist,$e.ast);}      
+	  ) 
+	  {symTable.remove(nestingLevel);}
+      SEMIC ;
 
-prog  : ( LET ( cllist (declist)? 
-        	  | declist
-              ) IN exp
-        | exp
-        ) SEMIC
-      ;
+declist	returns [ArrayList<Node> astlist]        
+	: {$astlist= new ArrayList<Node>() ;
+	   int offset=-2;
+	  }      
+	  ( (
+            VAR i=ID COLON t=type ASS e=exp 
+            {VarNode v = new VarNode($i.text,$t.ast,$e.ast);  
+             $astlist.add(v);                                 
+             HashMap<String,STentry> hm = symTable.get(nestingLevel);
+             if ( hm.put($i.text,new STentry(nestingLevel,$t.ast,offset--)) != null  )
+             {System.out.println("Var id "+$i.text+" at line "+$i.line+" already declared");
+              System.exit(0);}  
+            }  
+      |  
+            FUN i=ID COLON t=type
+              {//inserimento di ID nella symtable
+               FunNode f = new FunNode($i.text,$t.ast);      
+               $astlist.add(f);                              
+               HashMap<String,STentry> hm = symTable.get(nestingLevel);
+               STentry entry=new STentry(nestingLevel,offset--);
+               if ( hm.put($i.text,entry) != null  )
+               {System.out.println("Fun id "+$i.text+" at line "+$i.line+" already declared");
+                System.exit(0);}
+                //creare una nuova hashmap per la symTable
+                nestingLevel++;
+                HashMap<String,STentry> hmn = new HashMap<String,STentry> ();
+                symTable.add(hmn);
+                }
+              LPAR {ArrayList<Node> parTypes = new ArrayList<Node>();
+              	    int paroffset=1;
+                    }
+                //DA QUI ESERCITAZIONE
+                (fid=ID COLON fty=type
+                  { 
+                  parTypes.add($fty.ast);
+                  ParNode fpar = new ParNode($fid.text,$fty.ast); //creo nodo ParNode
+                  f.addPar(fpar);                                 //lo attacco al FunNode con addPar
+                  if ( hmn.put($fid.text,new STentry(nestingLevel,$fty.ast,paroffset++)) != null  ) //aggiungo dich a hmn
+                  {System.out.println("Parameter id "+$fid.text+" at line "+$fid.line+" already declared");
+                   System.exit(0);}
+                  }
+                  (COMMA id=ID COLON ty=type
+                    {
+                    parTypes.add($ty.ast);
+                    ParNode par = new ParNode($id.text,$ty.ast);
+                    f.addPar(par);
+                    if ( hmn.put($id.text,new STentry(nestingLevel,$ty.ast,paroffset++)) != null  )
+                    {System.out.println("Parameter id "+$id.text+" at line "+$id.line+" already declared");
+                     System.exit(0);}
+                    }
+                  )*
+                )? 
+                //FINO A QUI ESERCITAZIONE
+              RPAR {entry.addType(new ArrowTypeNode(parTypes,$t.ast));}
+              (LET d=declist IN {f.addDec($d.astlist);})? e=exp
+              {f.addBody($e.ast);
+               //rimuovere la hashmap corrente poich� esco dallo scope               
+               symTable.remove(nestingLevel--);    
+              }
+      ) SEMIC
+    )+          
+	;
+	
+type	returns [Node ast]
+  : INT  {$ast=new IntTypeNode();}
+  | BOOL {$ast=new BoolTypeNode();} 
+  | ID
+  ;	
 
-cllist  : ( CLASS ID (EXTENDS ID)? LPAR (ID COLON type (COMMA ID COLON type)* )? RPAR    
-              CLPAR
-                 ( FUN ID COLON type LPAR (ID COLON hotype (COMMA ID COLON hotype)* )? RPAR
-	                     (LET (VAR ID COLON type ASS exp SEMIC)* IN)? exp 
-        	       SEMIC
-        	     )*                
-              CRPAR
-          )+
-        ; 
+//FINO A QUI
 
-declist : (
-            ( VAR ID COLON hotype ASS exp
-            | FUN ID COLON type LPAR (ID COLON hotype (COMMA ID COLON hotype)* )? RPAR 
-                  (LET declist IN)? exp 
-            ) SEMIC 
-          )+
-        ;
+exp	returns [Node ast]
+ 	: f=term {$ast= $f.ast;}
+ 	    (PLUS l=term
+ 	     {$ast= new PlusNode ($ast,$l.ast);}
+ 	    )*
+ 	;
+ 	
+term	returns [Node ast]
+	: f=factor {$ast= $f.ast;}
+	    (TIMES l=factor
+	     {$ast= new MultNode ($ast,$l.ast);}
+	    )*
+	;
+	
+factor	returns [Node ast]
+	: f=value {$ast= $f.ast;}
+	    (EQ l=value 
+	     {$ast= new EqualNode ($ast,$l.ast);}
+	    )*
+ 	;	 	
+ 
+value	returns [Node ast]
+	: n=INTEGER   
+	  {$ast= new IntNode(Integer.parseInt($n.text));}  
+	| TRUE 
+	  {$ast= new BoolNode(true);}  
+	| FALSE
+	  {$ast= new BoolNode(false);}  
+	| LPAR e=exp RPAR
+	  {$ast= $e.ast;}  
+	| IF x=exp THEN CLPAR y=exp CRPAR 
+		   ELSE CLPAR z=exp CRPAR 
+	  {$ast= new IfNode($x.ast,$y.ast,$z.ast);}	 
+	| PRINT LPAR e=exp RPAR	
+	  {$ast= new PrintNode($e.ast);}
+	| i=ID 
+	  {//cercare la dichiarazione
+           int j=nestingLevel;
+           STentry entry=null; 
+           while (j>=0 && entry==null)
+             entry=(symTable.get(j--)).get($i.text);
+           if (entry==null)
+           {System.out.println("Id "+$i.text+" at line "+$i.line+" not declared");
+            System.exit(0);}               
+	   $ast= new IdNode($i.text,entry,nestingLevel);} 
+	   ( LPAR
+	   	 {ArrayList<Node> arglist = new ArrayList<Node>();} 
+	   	 ( a=exp {arglist.add($a.ast);} 
+	   	 	(COMMA a=exp {arglist.add($a.ast);} )*
+	   	 )? 
+	   	 RPAR
+	   	 {$ast= new CallNode($i.text,entry,arglist,nestingLevel);} 
+	   )?
+ 	; 
 
-exp	: term ( PLUS term  
-           | MINUS term 
-           | OR term    
-           )* 
-    ;  
-
-term	: factor ( TIMES factor 
-  	             | DIV  factor 
-  	             | AND  factor 
-  	             )*
-  	    ;
-  	
-factor  : value ( EQ value 
-	            | GE value 
-	            | LE value 
-	            )*
-	    ;    	
-  	
-value	: INTEGER 
-	    | TRUE      
-	    | FALSE       
-	    | NULL	    
-	    | NEW ID LPAR (exp (COMMA exp)* )? RPAR         
-	    | IF exp THEN CLPAR exp CRPAR ELSE CLPAR exp CRPAR     
-	    | NOT LPAR exp RPAR 
-	    | PRINT LPAR exp RPAR      
-        | LPAR exp RPAR  
-	    | ID ( LPAR (exp (COMMA exp)* )? RPAR 
-	         | DOT ID LPAR (exp (COMMA exp)* )? RPAR 
-	         )?	   
-        ; 
-               
 hotype  : type
         | arrow 
-        ;
-
-type    : INT     		      
-        | BOOL  		      	
- 	    | ID                        
- 	    ;  
+        ; 
  	  
-arrow 	: LPAR (hotype (COMMA hotype)* )? RPAR ARROW type ;          
-		  
+arrow 	: LPAR (hotype (COMMA hotype)* )? RPAR ARROW type ;
+
 /*------------------------------------------------------------------
  * LEXER RULES
  *------------------------------------------------------------------*/
