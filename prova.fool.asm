@@ -1,9 +1,9 @@
 push 0
 push 5
 push 4
-push 3
-div
 add
+push 3
+sub
 push function0
 lfp
 push 8

@@ -20,7 +20,8 @@ int lexicalErrors=0;
 /*------------------------------------------------------------------
  * PARSER RULES
  *------------------------------------------------------------------*/
- 
+
+// Generazione della radice
 prog returns [Node ast]
 	: {HashMap<String,STentry> hm = new HashMap<String,STentry> ();
        symTable.add(hm);}          
@@ -98,7 +99,7 @@ declist	returns [ArrayList<Node> astlist]
 type	returns [Node ast]
   : INT  {$ast=new IntTypeNode();}
   | BOOL {$ast=new BoolTypeNode();} 
-  | ID
+  | ID // ID non ha un tipo di dato predefinito -> cerca nella dichiarazione
   ;	
 
 //FINO A QUI
@@ -107,11 +108,11 @@ exp	returns [Node ast]
  	: f=term {$ast= $f.ast;}
  	    (PLUS l=term
  	     {$ast= new PlusNode ($ast,$l.ast);}
- 	    )*
- 	| f=term {$ast = $f.ast;}
-		(MINUS l=term
+ 		|
+		MINUS l=term
 			{$ast = new MinusNode($ast, $l.ast);}
 		)*
+		// TODO aggiungi l'operatore OR
  	;
  	
 term	returns [Node ast]
@@ -123,6 +124,7 @@ term	returns [Node ast]
 	    (DIV l=factor
 	     {$ast= new DivNode ($ast,$l.ast);}
 	    )* 
+	    // TODO aggiungi l'AND
 	;
 	
 factor	returns [Node ast]
@@ -130,11 +132,14 @@ factor	returns [Node ast]
 	    (EQ l=value 
 	     {$ast= new EqualNode ($ast,$l.ast);}
 	    )*
+	    // TODO aggiungi <= e >=
  	;	 	
  
 value	returns [Node ast]
 	: n=INTEGER   
-	  {$ast= new IntNode(Integer.parseInt($n.text));}  
+	  {$ast= new IntNode(Integer.parseInt($n.text));} 
+	| MINUS n=INTEGER
+	  {$ast= new IntNode(Integer.parseInt("-" + $n.text));} 
 	| TRUE 
 	  {$ast= new BoolNode(true);}  
 	| FALSE
@@ -211,8 +216,8 @@ NEW 	: 'new' ;
 NULL    : 'null' ;	  
 INT	    : 'int' ;
 BOOL	: 'bool' ;
-ARROW   : '->' ; 	
-INTEGER : '0' | ('-')?(('1'..'9')('0'..'9')*) ; 
+ARROW   : '->' ;
+INTEGER : '0' | (('1'..'9')('0'..'9')*) ; 
 
 ID  	: ('a'..'z'|'A'..'Z')('a'..'z' | 'A'..'Z' | '0'..'9')* ;
 
