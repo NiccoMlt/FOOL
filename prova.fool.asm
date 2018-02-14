@@ -1,9 +1,9 @@
 push 0
 push 5
 push 4
-add
+mult
 push 3
-sub
+div
 push function0
 lfp
 push 8
@@ -18,12 +18,12 @@ add
 lw
 js
 push 1
-beq label2
+beq label4
 push 10
-b label3
-label2: 
+b label5
+label4: 
 push 0
-label3: 
+label5: 
 print
 halt
 
@@ -34,6 +34,7 @@ push 2
 lfp
 add
 lw
+push 2
 push -2
 lfp
 add
@@ -43,6 +44,14 @@ lfp
 lw
 add
 lw
+bleq label2
+push 0
+b label3
+label2: 
+push 1
+label3: 
+push 1
+add
 beq label0
 push 0
 b label1

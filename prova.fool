@@ -1,9 +1,9 @@
 let
-  var y:int = 5+4-3;
+  var y:int = 5*4/3;
   fun f:bool (n:int, m:int)
     let 
       var x:int = m;
-  in x==y;   
+  in x<=y && true;   
 in  
   print ( 
     if f(y,8) 

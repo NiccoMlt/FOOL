@@ -111,28 +111,36 @@ exp	returns [Node ast]
  		|
 		MINUS l=term
 			{$ast = new MinusNode($ast, $l.ast);}
+		|
+		OR l=term
+			{$ast = new OrNode($ast, $l.ast);}
 		)*
-		// TODO aggiungi l'operatore OR
  	;
  	
 term	returns [Node ast]
 	: f=factor {$ast= $f.ast;}
 	    (TIMES l=factor
 	     {$ast= new MultNode ($ast,$l.ast);}
-	    )*
-	|  f=factor {$ast= $f.ast;}
-	    (DIV l=factor
+		|
+	    DIV l=factor
 	     {$ast= new DivNode ($ast,$l.ast);}
-	    )* 
-	    // TODO aggiungi l'AND
+	    |
+		AND l=factor
+			{$ast = new AndNode($ast, $l.ast);}
+		)*
 	;
 	
 factor	returns [Node ast]
 	: f=value {$ast= $f.ast;}
 	    (EQ l=value 
 	     {$ast= new EqualNode ($ast,$l.ast);}
+	    | 
+	    LE l=value 
+	     {$ast= new LessEqualNode ($ast,$l.ast);}
+	    |
+	    GE l=value 
+	     {$ast= new MoreEqualNode ($ast,$l.ast);}
 	    )*
-	    // TODO aggiungi <= e >=
  	;	 	
  
 value	returns [Node ast]
@@ -140,6 +148,8 @@ value	returns [Node ast]
 	  {$ast= new IntNode(Integer.parseInt($n.text));} 
 	| MINUS n=INTEGER
 	  {$ast= new IntNode(Integer.parseInt("-" + $n.text));} 
+	| NOT e=exp
+	  {$ast= new NotNode($e.ast);}
 	| TRUE 
 	  {$ast= new BoolNode(true);}  
 	| FALSE

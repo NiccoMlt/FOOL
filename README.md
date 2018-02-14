@@ -10,13 +10,14 @@
 Progetto realizzabile a diversi livelli:
 
 * sola estensione del linguaggio visto a lezione con operatori:
-  - [ ] "<=", 
-  - [ ] ">=", 
-  - [ ] "||", 
-  - [ ] "&&", 
+  - [X] "<=", 
+  - [X] ">=", 
+  - [X] "||", 
+  - [X] "&&", 
   - [X] "/", 
   - [X] "-",
-  - [ ] "!"
+  - [X] "!"
+  
   , con stesso significato che hanno in C/Java (2 punti)
 * ulteriore estensione con
   * passaggio higher-order di funzioni (4 punti totali)
