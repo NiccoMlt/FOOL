@@ -3,7 +3,7 @@ let
   fun f:bool (n:int, m:int)
     let 
       var x:int = m;
-  in x<=y && true;   
+  in x<=y || false;   
 in  
   print ( 
     if f(y,8) 

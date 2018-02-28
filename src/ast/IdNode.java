@@ -26,7 +26,7 @@ public class IdNode implements Node {
 
     public String codeGeneration() {
 
-        String getAR = ""; // recupero l'AR in cui � dichiarata la variable che sto usando
+        String getAR = ""; // recupero l'AR in cui è dichiarata la variable che sto usando
         for (int i = 0; i < nestingLevel - entry.getNestinglevel(); i++)
             // differenza di nesting level tra dove sono e la dichiarazione di "id"
             getAR += "lw\n";

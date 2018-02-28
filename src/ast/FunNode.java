@@ -8,7 +8,7 @@ public class FunNode implements Node {
 
     private String id;
     private Node type;
-    private ArrayList<Node> parlist = new ArrayList<Node>(); // campo "parlist" che � lista di Node
+    private ArrayList<Node> parlist = new ArrayList<Node>(); // campo "parlist" che è lista di Node
     private ArrayList<Node> declist = new ArrayList<Node>();
     private Node exp;
 

@@ -1,5 +1,8 @@
 package ast;
 
+/**
+ * L'interfaccia modella un nodo dell'AST.
+ */
 public interface Node {
 
     /**
@@ -11,10 +14,10 @@ public interface Node {
 
     /**
      * Fa il type checking e ritorna:
-     * <p>
-     * - per una espressione, il suo tipo (oggetto BoolTypeNode o IntTypeNode);
-     * <p>
-     * - per una dichiarazione, "null"
+     * <p><ul>
+     * <li>per una espressione, il suo tipo (oggetto BoolTypeNode o IntTypeNode);
+     * <li>per una dichiarazione, "null".
+     * </ul>
      * 
      * @return il tipo oppure null
      */

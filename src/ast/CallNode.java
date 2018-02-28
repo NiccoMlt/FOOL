@@ -53,7 +53,7 @@ public class CallNode implements Node {
         for (int i = parlist.size() - 1; i >= 0; i--)
             parCode += parlist.get(i).codeGeneration();
 
-        String getAR = ""; // recupero l'AR in cui � dichiarata la funzione che sto usando
+        String getAR = ""; // recupero l'AR in cui è dichiarata la funzione che sto usando
         for (int i = 0; i < nestingLevel - entry.getNestinglevel(); i++)
             // differenza di nesting level tra dove sono e la dichiarazione di "id"
             getAR += "lw\n";
