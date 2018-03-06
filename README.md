@@ -9,7 +9,7 @@
 
 Progetto realizzabile a diversi livelli:
 
-* sola estensione del linguaggio visto a lezione con operatori:
+* sola estensione del linguaggio visto a lezione con operatori, con stesso significato che hanno in C/Java (2 punti):
   - [X] "<=", 
   - [X] ">=", 
   - [X] "||", 
@@ -17,15 +17,13 @@ Progetto realizzabile a diversi livelli:
   - [X] "/", 
   - [X] "-",
   - [X] "!"
-  
-  , con stesso significato che hanno in C/Java (2 punti)
 * ulteriore estensione con
   * passaggio higher-order di funzioni (4 punti totali)
   * object-orientation a diversi livelli
-* senza ereditarietà (4 punti totali)
-* con ereditarietà (5 punti totali)
-* con ereditarietà e ottimizzazioni (6 punti totali)
-  * sia object orientation ad uno dei tre livelli che higher-order (1 punto aggiuntivo al punteggio del livello)
+    * senza ereditarietà (4 punti totali)
+    * con ereditarietà (5 punti totali)
+    * con ereditarietà e ottimizzazioni (6 punti totali)
+      * sia object orientation ad uno dei tre livelli che higher-order (1 punto aggiuntivo al punteggio del livello)
 
 ## INSTALLAZIONE PLUGIN ECLIPSE "ANTLR 4 IDE 0.3.6" ##
 
