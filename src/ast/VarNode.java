@@ -2,7 +2,7 @@ package ast;
 
 import lib.FOOLlib;
 
-public class VarNode implements Node {
+public class VarNode implements DecNode {
 
     private String id;
     private Node type;
@@ -28,5 +28,11 @@ public class VarNode implements Node {
 
     public String codeGeneration() {
         return exp.codeGeneration();
+    }
+
+    @Override
+    public STentry getSymType() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

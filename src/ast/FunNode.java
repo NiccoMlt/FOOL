@@ -4,10 +4,11 @@ import java.util.ArrayList;
 
 import lib.FOOLlib;
 
-public class FunNode implements Node {
+public class FunNode implements DecNode {
 
     private String id;
     private Node type;
+    private STentry symType;
     private ArrayList<Node> parlist = new ArrayList<Node>(); // campo "parlist" che è lista di Node
     private ArrayList<Node> declist = new ArrayList<Node>();
     private Node exp;
@@ -85,5 +86,11 @@ public class FunNode implements Node {
         );
 
         return "push " + funl + "\n";
+    }
+
+    @Override
+    public STentry getSymType() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

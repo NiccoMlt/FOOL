@@ -36,6 +36,10 @@ public class EqualNode implements Node {
     public Node typeCheck() {
         final Node l = left.typeCheck();
         final Node r = right.typeCheck();
+        if (l instanceof ArrowTypeNode || r instanceof ArrowTypeNode) {
+            System.out.println("Expression comparison not supported");
+            System.exit(0);
+        }
         if (!(FOOLlib.isSubtype(l, r) || FOOLlib.isSubtype(r, l))) {
             System.out.println("Incompatible types in equal");
             System.exit(0);

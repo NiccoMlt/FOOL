@@ -17,10 +17,11 @@ public class IdNode implements Node {
     }
 
     public Node typeCheck() {
-        if (entry.getType() instanceof ArrowTypeNode) {
-            System.out.println("Wrong usage of function identifier");
-            System.exit(0);
-        }
+//        // Rimosso per ammettere anche un ID con tipo funzionale
+//        if (entry.getType() instanceof ArrowTypeNode) {
+//            System.out.println("Wrong usage of function identifier");
+//            System.exit(0);
+//        }
         return entry.getType();
     }
 
