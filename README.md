@@ -19,37 +19,37 @@ Progetto realizzabile a diversi livelli:
     - [X] "!"
 * ulteriore estensione con
      - passaggio higher-order di funzioni (4 punti totali)
-         + [] interfaccia DecNode con metodo getSymType() che implementano tutte: VarNode, FunNode, ParNode
-         + [] getSymType() su un DecNode deve essere implementato in modo che ritorni il tipo messo in Symbol Table
-             * [] per FunNode prevedere un campo symType dove memorizzarlo
-         + [] per i tipi "arrow" creare degli ArrowTypeNode (che risulteranno possibilmente annidati nei parametri)
-         + [] STentry: invariata
-             * [] ora, oltre agli ID di funzione, anche gli ID di variabili/parametri potranno avere tipo funzionale ArrowTypeNode
-         + [] Durante il parsing dei parametri e delle dichiarazioni: incremento/decremento offset deve tener conto che gli ID di tipo funzionale occupano offset doppio
+         + [O] interfaccia DecNode con metodo getSymType() che implementano tutte: VarNode, FunNode, ParNode
+         + [O] getSymType() su un DecNode deve essere implementato in modo che ritorni il tipo messo in Symbol Table
+             * [O] per FunNode prevedere un campo symType dove memorizzarlo
+         + [O] per i tipi "arrow" creare degli ArrowTypeNode (che risulteranno possibilmente annidati nei parametri)
+         + [O] STentry: invariata
+             * [O] ora, oltre agli ID di funzione, anche gli ID di variabili/parametri potranno avere tipo funzionale ArrowTypeNode
+         + [O] Durante il parsing dei parametri e delle dichiarazioni: incremento/decremento offset deve tener conto che gli ID di tipo funzionale occupano offset doppio
          + [X] isSubtype() in FOOLlib ora deve gestire (oltre a "bool" sottotipo di "int") tipi funzionali ArrowTypeNode
-             * [] entrambi devono essere ArrowTypeNode con stesso numero di paramteri e deve valere:
-                 - [] relazione di co-varianza sul tipo di ritorno
-                 - [] relazione di contro-varianza sul tipo dei parametri
-         + [] espressioni:
+             * [O] entrambi devono essere ArrowTypeNode con stesso numero di paramteri e deve valere:
+                 - [O] relazione di co-varianza sul tipo di ritorno
+                 - [O] relazione di contro-varianza sul tipo dei parametri
+         + [O] espressioni:
              * [X] IdNode -> ID, ora ammettere anche un ID con tipo funzionale! (nome di funzione o var/par di tipo funzionale)
              * [X] EqualNode -> exp1 == exp2, non consentire l'uso di espressioni expi con tipi funzionali (dovrei confrontare coppie di valori)
              * [X] CallNode -> ID() check invariato: il tipo dell’ID deve essere funzionale (nome di funzione o var/par di tipo funzionale)
-             * [] Dichiarazioni invariate
-         + [] FunNode
-             * [] codice ritornato: due cose sono messe nello stack, nell'ordine
+             * [O] Dichiarazioni invariate
+         + [O] FunNode
+             * [O] codice ritornato: due cose sono messe nello stack, nell'ordine
                  1. indir (fp) a questo AR (in reg $fp)
                  2. (finisce a offset-1) indir della funzione (etichetta generata)
-             * [] codice della funzione:
+             * [O] codice della funzione:
                  - in caso tra i parametri o le dichiarazioni vi siano ID di tipo funzionale (usare getSymType() su DecNode) si devono deallocare due cose dallo stack (con due "pop")
-         + [] VarNode invariato
-             * [] ritorna codice generato da sua inizializzazione che metterà due cose in stack se var è di tipo funzionale
+         + [O] VarNode invariato
+             * [O] ritorna codice generato da sua inizializzazione che metterà due cose in stack se var è di tipo funzionale
                  - si vedano a riguardo espressioni nel seguito (IdNode)
-         + [] IdNode -> ID
+         + [O] IdNode -> ID
              * se il tipo non è funzionale, ritorna codice invariato
              * se lo è, due cose sono messe nello stack, recuperandole come valori dall'AR dove è dichiarato l'ID, con meccanismo usuale di risalita catena statica; nell'ordine:
                  1. indir (fp) ad AR dichiaraz. funzione (recuperato a offset ID)
                  2. indir funzione (recuperato a offset ID - 1)
-         + [] CallNode -> ID()
+         + [O] CallNode -> ID()
              * codice ritornato modificato: due cose recuperate come valori dall'AR dove è dichiarato l'ID con meccanismo usuale di risalita catena statica
                  - indir (fp) ad AR dichiaraz. funzione (recuperato a offset ID)
                      + usato per settare nuovo Access Link (AL)
