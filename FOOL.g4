@@ -48,14 +48,16 @@ declist	returns [ArrayList<Node> astlist]
             }  
       |  
             FUN i=ID COLON t=type
-              {//inserimento di ID nella symtable
-               FunNode f = new FunNode($i.text,$t.ast);      
-               $astlist.add(f);                              
+              {//inserimento di ID nella symtable                              
                HashMap<String,STentry> hm = symTable.get(nestingLevel);
-               STentry entry=new STentry(nestingLevel,offset--);
-               if ( hm.put($i.text,entry) != null  )
-               {System.out.println("Fun id "+$i.text+" at line "+$i.line+" already declared");
-                System.exit(0);}
+               STentry entry = new STentry(nestingLevel,offset--);
+               if ( hm.put($i.text,entry) != null) {
+                	System.out.println("Fun id "+$i.text+" at line "+$i.line+" already declared");
+                    System.exit(0);
+               }
+//               FunNode f = new FunNode($i.text,$t.ast,entry,nestingLevel);
+               FunNode f = new FunNode($i.text,$t.ast);
+               $astlist.add(f);
                 //creare una nuova hashmap per la symTable
                 nestingLevel++;
                 HashMap<String,STentry> hmn = new HashMap<String,STentry> ();

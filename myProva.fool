@@ -1,0 +1,10 @@
+let
+  var y:int = 1;
+  fun f:bool (n:int, m:int)
+    let 
+      var x:int = m;
+    in 
+      x<=y || false;
+  var z:(int,int)->bool= f;
+in  
+  print (z);

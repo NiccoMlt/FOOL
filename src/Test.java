@@ -8,7 +8,7 @@ import ast.Node;
 public class Test {
     public static void main(final String[] args) throws Exception {
       
-        final String fileName = "prova.fool";
+        final String fileName = "myProva.fool";
       
         final CharStream chars = CharStreams.fromFileName(fileName);
         final FOOLLexer lexer = new FOOLLexer(chars);

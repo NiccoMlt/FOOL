@@ -9,6 +9,7 @@ public class FunNode implements DecNode {
     private String id;
     private Node type;
     private STentry symType;
+    private int nestingLevel;
     private ArrayList<Node> parlist = new ArrayList<Node>(); // campo "parlist" che è lista di Node
     private ArrayList<Node> declist = new ArrayList<Node>();
     private Node exp;
@@ -16,6 +17,8 @@ public class FunNode implements DecNode {
     public FunNode(String i, Node t) {
         id = i;
         type = t;
+//        symType = st;
+//        nestingLevel = nl;
     }
 
     public void addDec(ArrayList<Node> d) {
@@ -48,7 +51,7 @@ public class FunNode implements DecNode {
         for (Node dec : declist) {
             dec.typeCheck();
         }
-        ;
+        
         if (!FOOLlib.isSubtype(exp.typeCheck(), type)) {
             System.out.println("Incompatible value for variable");
             System.exit(0);
@@ -90,7 +93,6 @@ public class FunNode implements DecNode {
 
     @Override
     public STentry getSymType() {
-        // TODO Auto-generated method stub
-        return null;
+        return symType;
     }
 }
