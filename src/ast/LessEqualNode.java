@@ -29,15 +29,14 @@ public class LessEqualNode implements Node {
     /**
      * {@inheritDoc}
      * <p>
-     * L'operatore <= richiede che i due operandi siano dello stesso tipo 
+     * L'operatore <= richiede che i due operandi siano entrambi interi 
      * e ritorna un tipo di dato {@link BoolTypeNode booleano}.
      */
     @Override
     public Node typeCheck() {
-        final Node l = left.typeCheck();
-        final Node r = right.typeCheck();
-        if (!(FOOLlib.isSubtype(l, r) || FOOLlib.isSubtype(r, l))) {
-            System.out.println("Incompatible types in equal");
+        if (!(FOOLlib.isSubtype(left.typeCheck(), new IntTypeNode())
+                        && FOOLlib.isSubtype(right.typeCheck(), new IntTypeNode()))) {
+            System.out.println("Non integers in comparison");
             System.exit(0);
         }
         return new BoolTypeNode();

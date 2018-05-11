@@ -5,7 +5,7 @@ import lib.FOOLlib;
 /**
  * Nodo per l'operatore maggiore o uguale ">=".
  */
-public class MoreEqualNode implements Node {
+public class GreaterEqualNode implements Node {
 
     private final Node left;
     private final Node right;
@@ -16,7 +16,7 @@ public class MoreEqualNode implements Node {
      * @param l l'operando a sinistra dell'operatore
      * @param r l'operando a destra dell'operatore
      */
-    public MoreEqualNode(final Node l, final Node r) {
+    public GreaterEqualNode(final Node l, final Node r) {
         left = l;
         right = r;
     }
@@ -29,15 +29,14 @@ public class MoreEqualNode implements Node {
     /**
      * {@inheritDoc}
      * <p>
-     * L'operatore >= richiede che i due operandi siano dello stesso tipo 
+     * L'operatore >= richiede che i due operandi siano entrambi interi 
      * e ritorna un tipo di dato {@link BoolTypeNode booleano}.
      */
     @Override
     public Node typeCheck() {
-        final Node l = left.typeCheck();
-        final Node r = right.typeCheck();
-        if (!(FOOLlib.isSubtype(l, r) || FOOLlib.isSubtype(r, l))) {
-            System.out.println("Incompatible types in equal");
+        if (!(FOOLlib.isSubtype(left.typeCheck(), new IntTypeNode())
+                        && FOOLlib.isSubtype(right.typeCheck(), new IntTypeNode()))) {
+            System.out.println("Non integers in comparison");
             System.exit(0);
         }
         return new BoolTypeNode();
