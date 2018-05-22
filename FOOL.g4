@@ -137,9 +137,9 @@ factor	returns [Node ast]
 	    | 
 	    LE l=value 
 	     {$ast= new LessEqualNode ($ast,$l.ast);}
-	    |
+	    | 
 	    GE l=value 
-	     {$ast= new MoreEqualNode ($ast,$l.ast);}
+	     {$ast= new GreaterEqualNode ($ast,$l.ast);}
 	    )*
  	;	 	
  
