@@ -1,0 +1,25 @@
+let
+  var y:int = 5+3;
+  fun f:bool (n:int, m:int)
+    let 
+      var x:int = m;
+  in x==y;   
+in  
+  print ( 
+    if f(y,8) 
+      then { false }
+      else { 10 }
+  ); 
+  
+  
+  /*
+  	In questo test vengono testate le seguenti funzionalità:
+  		- Dichiarazione di variablie intera
+  		- Somma
+  		- Dichiarazione di funzione
+  		- Assegnamento di una variabile ad un altra variablie
+  		- Uguaglianza
+  		- utilizzo della funzione print
+  		- chiamata di funzione
+  		- if then else
+  */

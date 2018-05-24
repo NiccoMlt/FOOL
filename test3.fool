@@ -1,0 +1,13 @@
+let 
+  fun f:int (i:int, j:int) i+j;
+in
+  print (f(-1,5));
+  
+  /*
+  	In questo test vengono testate le seguenti funzionalità:
+  		- Somma
+  		- Dichiarazione di funzione
+  		- utilizzo della funzione print
+  		- chiamata di funzione
+  		- passaggio di valori come parametri
+  */

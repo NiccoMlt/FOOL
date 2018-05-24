@@ -1,0 +1,26 @@
+let
+  var y:int = 5*4/3;
+  fun f:bool (n:int, m:int)
+    let 
+      var x:int = m;
+  in x<=y || false;   
+in  
+  print ( 
+    if f(y,8) 
+      then { false }
+      else { 10 }
+  );
+
+  /*
+  	In questo test vengono testate le seguenti funzionalità:
+  		- Dichiarazione di variablie intera
+  		- moltiplicazione
+  		- divisione
+  		- Or logico
+  		- Operatore <=
+  		- Dichiarazione di funzione
+  		- Assegnamento di una variabile ad un altra variablie
+  		- utilizzo della funzione print
+  		- if then else dentro ad una print
+  		- chiamata di funzione
+  */

@@ -1,0 +1,15 @@
+let 
+  var x:int = 1;
+  var b:bool = true;
+in
+  print (if (b) then { x+1 } else { x+2 });
+  
+  
+  /*
+  	In questo test vengono testate le seguenti funzionalità:
+  		- Dichiarazione di variablie intera
+  		- Somma
+  		- dichiarazione di variabile booleana
+  		- utilizzo della funzione print
+  		- if then else in una print
+  */
