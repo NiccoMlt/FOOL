@@ -26,14 +26,14 @@ Progetto realizzabile a diversi livelli:
          + [ ] STentry: invariata
              * [ ] ora, oltre agli ID di funzione, anche gli ID di variabili/parametri potranno avere tipo funzionale ArrowTypeNode
          + [ ] Durante il parsing dei parametri e delle dichiarazioni: incremento/decremento offset deve tener conto che gli ID di tipo funzionale occupano offset doppio
-         + [X] isSubtype() in FOOLlib ora deve gestire (oltre a "bool" sottotipo di "int") tipi funzionali ArrowTypeNode
+         + [ ] isSubtype() in FOOLlib ora deve gestire (oltre a "bool" sottotipo di "int") tipi funzionali ArrowTypeNode
              * [ ] entrambi devono essere ArrowTypeNode con stesso numero di paramteri e deve valere:
                  - [ ] relazione di co-varianza sul tipo di ritorno
                  - [ ] relazione di contro-varianza sul tipo dei parametri
          + [ ] espressioni:
-             * [X] IdNode -> ID, ora ammettere anche un ID con tipo funzionale! (nome di funzione o var/par di tipo funzionale)
-             * [X] EqualNode -> exp1 == exp2, non consentire l'uso di espressioni expi con tipi funzionali (dovrei confrontare coppie di valori)
-             * [X] CallNode -> ID() check invariato: il tipo dell’ID deve essere funzionale (nome di funzione o var/par di tipo funzionale)
+             * [ ] IdNode -> ID, ora ammettere anche un ID con tipo funzionale! (nome di funzione o var/par di tipo funzionale)
+             * [ ] EqualNode -> exp1 == exp2, non consentire l'uso di espressioni expi con tipi funzionali (dovrei confrontare coppie di valori)
+             * [ ] CallNode -> ID() check invariato: il tipo dell’ID deve essere funzionale (nome di funzione o var/par di tipo funzionale)
              * [ ] Dichiarazioni invariate
          + [ ] FunNode
              * [ ] codice ritornato: due cose sono messe nello stack, nell'ordine
