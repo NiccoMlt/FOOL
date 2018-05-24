@@ -9,8 +9,8 @@ import ast.*;
 @parser::members{
 private int nestingLevel = 0;
 private ArrayList<HashMap<String,STentry>> symTable = new ArrayList<HashMap<String,STentry>>();
-//livello ambiente con dichiarazioni piu' esterno � 0 (prima posizione ArrayList) invece che 1 (slides)
-//il "fronte" della lista di tabelle � symTable.get(nestingLevel)
+//livello ambiente con dichiarazioni più esterno è 0 (prima posizione ArrayList) invece che 1 (slides)
+//il "fronte" della lista di tabelle è symTable.get(nestingLevel)
 }
 
 @lexer::members {
