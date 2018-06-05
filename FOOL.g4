@@ -1,20 +1,20 @@
 grammar FOOL;
 
-@header{
+@header{//gli import condivisi
 import java.util.ArrayList;
 import java.util.HashMap;
 import ast.*;
 }
 
-@parser::members{
-private int nestingLevel = 0;
-private ArrayList<HashMap<String,STentry>> symTable = new ArrayList<HashMap<String,STentry>>();
+@parser::members{// campi del parser
+private int nestingLevel = 0;//livello di profondità dell'ast
+private ArrayList<HashMap<String,STentry>> symTable = new ArrayList<HashMap<String,STentry>>();//mappa con le stringhe e i simboli nei quali sono convertite
 //livello ambiente con dichiarazioni più esterno è 0 (prima posizione ArrayList) invece che 1 (slides)
 //il "fronte" della lista di tabelle è symTable.get(nestingLevel)
 }
 
 @lexer::members {
-int lexicalErrors=0;
+int lexicalErrors=0; //numero di errore
 }
 
 /*------------------------------------------------------------------
