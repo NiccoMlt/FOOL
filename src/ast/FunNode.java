@@ -75,15 +75,18 @@ public class FunNode implements Node {
 
         FOOLlib.putCode(funl + ":\n" + "cfp\n" + // setta $fp allo $sp
                         "lra\n" + // inserimento Return Address
-                        declCode + exp.codeGeneration() + "srv\n" + // pop del return value e memorizzazione in $rv
+                        declCode + exp.codeGeneration() + //Code generation per il CORPO della F.
+                        "srv\n" + // pop del return value e memorizzazione in $rv
                         popDecl + // una pop per ogni dichiarazione
                         "sra\n" + // pop del Return Address e memorizzazione in $ra
-                        "pop\n" + // pop di AL
-                        popParl + "sfp\n" + // ripristino il $fp al valore del CL
+                        "pop\n" + // pop di Access Link
+                        popParl + //pop di tutti i parametri
+                        "sfp\n" + // ripristino il $fp al valore del Control Link
                         "lrv\n" + // risultato della funzione sullo stack
-                        "lra\n" + "js\n" // salta a $ra
+                                  // pushare sulla cima dello stack il risultato della F.
+                        "lra\n" + "js\n" // salta a $ra e ridà il controllo al chiamante
         );
 
-        return "push " + funl + "\n";
+        return "push " + funl + "\n"; //push della label della Funzione
     }
 }

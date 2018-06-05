@@ -59,12 +59,20 @@ public class CallNode implements Node {
             getAR += "lw\n";
 
         return // allocazione della mia parte dell'AR della funzione che sto chiamando
-        "lfp\n" + // CL
+        "lfp\n" + // Control Link: punta al record precedente
+        
                         parCode + // allocazione valori parametri
-                        "lfp\n" + getAR + // AL
+                        
+                        "lfp\n" + getAR + // Access Link: punta al più recente recod di attivazione più recente che include il corrente
+                                //Risalgo di k passi la catena statica per mettere il puntatore all'Access Link
+                                //dove k = diff. nesting level tra lo scope corrente e la dichiarazione.
                         // codice per recuperare l'inidirizzo a cui saltare (stesso delle variabili)
+                        
                         "push " + entry.getOffset() + "\n" + // metto l'offset sullo stack
-                        "lfp\n" + getAR + // risalgo la catena statica e ottengo l'indirizzo dell'AR della variabile
+                                        //Numero i parametri usando il Frame Pointer (Access Link)
+                                        // L'indice dei parametri è specificato nella Symbol Table
+                        
+                                        "lfp\n" + getAR + // risalgo la catena statica e ottengo l'indirizzo dell'AR della variabile
                         "add\n" + "lw\n" + // carico sullo stack l'indirizzo a cui saltare
                         // effettuo il salto
                         "js\n";

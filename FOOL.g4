@@ -9,8 +9,20 @@ import ast.*;
 @parser::members{// campi del parser
 private int nestingLevel = 0;//livello di profondità dell'ast
 private ArrayList<HashMap<String,STentry>> symTable = new ArrayList<HashMap<String,STentry>>();//mappa con le stringhe e i simboli nei quali sono convertite
-//livello ambiente con dichiarazioni più esterno è 0 (prima posizione ArrayList) invece che 1 (slides)
-//il "fronte" della lista di tabelle è symTable.get(nestingLevel)
+
+/* -Scope entry: incremento il numero di lev corrente e AGGIUNGI una nuova Table ALL'INIZIO DELLA LISTA
+ * -Processare una dichiarazione di X: Controllo che X sia nella PRIMA TABLE (Quella corrente)
+ * 								-se c'è: ERRORE di multiple declared.
+ * 								-se NON c'è: OK.
+ * -Processare un'uso di X: Controllo, partendo dalla prima Tabella che X sia dichiarato, poi nelle altre:
+ * 								-se non è in nessuna: ERRORE di undeclared.
+ * 								-se lo trovo da qualche parte: OK.
+ * -Scope exit: rimuovo la PRIMA tabella della lista e decremento il nesting level.
+ */
+
+
+/* livello ambiente con dichiarazioni più esterno è 0 (prima posizione ArrayList) invece che 1 (slides)
+ * il "fronte" della lista di tabelle è symTable.get(nestingLevel)*/
 }
 
 @lexer::members {
