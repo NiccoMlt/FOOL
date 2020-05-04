@@ -1,6 +1,8 @@
 package lib;
 
-import ast.*;
+import ast.BoolTypeNode;
+import ast.IntTypeNode;
+import ast.Node;
 
 public class FOOLlib {
     

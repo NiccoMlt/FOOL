@@ -1,7 +1,8 @@
 package ast;
 
+import lib.FOOLlib;
+
 import java.util.ArrayList;
-import lib.*;
 
 public class ProgLetInNode implements Node {
 

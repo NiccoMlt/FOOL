@@ -1,8 +1,8 @@
 package ast;
 
-import java.util.ArrayList;
-
 import lib.FOOLlib;
+
+import java.util.ArrayList;
 
 public class CallNode implements Node {
 
